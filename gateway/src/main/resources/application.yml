@@ -1,0 +1,18 @@
+server:
+  port: 8083
+  forward-headers-strategy: framework
+
+spring:
+  application.name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+
+op:
+  gateway:
+    backendHost: "localhost:8082"

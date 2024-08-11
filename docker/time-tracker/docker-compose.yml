@@ -1,0 +1,153 @@
+services:
+  keycloak-db:
+    container_name: semiramide-keycloak-db
+    image: postgres:15.1
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: my_admin
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: timetracker_db
+    networks:
+      - time-tracker-network
+
+  keycloak:
+    container_name: semiramide-keycloak
+    image: jboss/keycloak:16.1.1
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-db
+      DB_DATABASE: time_tracker_db
+      DB_USER: my_admin
+      DB_SCHEMA: public
+      DB_PASSWORD: my_password
+      KEYCLOAK_USER: kc_admin
+      KEYCLOAK_PASSWORD: kc_password
+      KEYCLOAK_IMPORT: /tmp/tt_realm_config.json -Dkeycloak.profile.feature.upload_scripts=enabled
+      PROXY_ADDRESS_FORWARDING: true
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - ${KEYCLOAK_PORT:-8080}:8080
+    networks:
+      - time-tracker-network
+    volumes:
+      - /data/semiramide/docker-volumes/tt-keycloak-config/tt_realm_config.json:/tmp/tt_realm_config.json
+    depends_on:
+      - keycloak-db
+
+  time-tracker-db:
+    container_name: semiramide-time-tracker-db
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: timetracker
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - ${DB_PORT:-25432}:5432
+    networks:
+      - time-tracker-network
+
+  time-tracker-db-pgadmin:
+    container_name: semiramide-time-tracker-db-pgadmin
+    image: dpage/pgadmin4:7.4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: borispopic.business@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: eszy8KqEnofUFd6vkCoo
+    networks:
+      - time-tracker-network
+    ports:
+      - ${PGADMIN_PORT:-26107}:80
+
+  time-tracker-backend:
+    container_name: semiramide-time-tracker-backend
+    image: semiramide/time-tracker-backend:${VERSION:-0.1.0}
+    environment:
+      SPRING_ELASTICSEARCH_URL: elasticsearch:9200
+      SPRING_DATASOURCE_URL: jdbc:postgresql://time-tracker-db:5432/time-tracker
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI: https://tt-idp.semiramide.com/auth/realms/time-tracker-realm
+      OP_SECURITY_PROVIDER_KEYCLOAK_USERNAME: kc_admin
+      OP_SECURITY_PROVIDER_KEYCLOAK_PASSWORD: kc_password
+      OP_SECURITY_PROVIDER_KEYCLOAK_HOST: keycloak:8080
+      OP_SECURITY_PROVIDER_KEYCLOAK_DEFAULTADMINUSERNAME: admin
+      OP_SECURITY_PROVIDER_KEYCLOAK_DEFAULTADMINPASSWORD: admin
+      SPRING_MAIL_HOST: mail.semiramide.com
+      SPRING_MAIL_PROPERITES_MAIL_SMTP_FROM: semiramide.tt@semiramide.com
+    extra_hosts:
+      - "mail.semiramide.com:192.168.200.10"
+    networks:
+      - time-tracker-network
+    depends_on:
+      time-tracker-db:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+
+  time-tracker-gateway:
+    container_name: semiramide-time-tracker-gateway
+    image: semiramide/time-tracker-gateway:${VERSION:-0.1.0}
+    environment:
+      OP_GATEWAY_BACKENDHOST: time-tracker-backend:8082
+    ports:
+      - "${GATEWAY_PORT:-8083}:8083"
+    networks:
+      - time-tracker-network
+
+  time-tracker-frontend:
+    container_name: semiramide-time-tracker-frontend
+    image: semiramide/time-tracker-frontend:${VERSION:-0.1.0}
+    environment:
+      GATEWAY_ADDRESS: https://tt-gateway.semiramide.com
+      KEYCLOAK_ADDRESS: https://tt-idp.semiramide.com
+    ports:
+      - "${OP_PORT:-80}:80"
+
+  elasticsearch:
+    container_name: semiramide-tt-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    ports:
+      - "${ES_PORT:-9200}:9200"
+    environment:
+      - ELASTIC_PASSWORD=dev
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - es-net
+
+  kibana:
+    container_name: semiramide-tt-kibana
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - '${KIBANA_PORT:-5601}:5601'
+    depends_on:
+      - elasticsearch
+    volumes:
+      - kibana-data:/usr/share/kibana/data
+    networks:
+      - es-net
+
+volumes:
+  elasticsearch-data:
+    driver: local
+  kibana-data:
+    driver: local
+
+networks:
+  es-net:
+    driver: bridge
+  time-tracker-network:
+    driver: bridge

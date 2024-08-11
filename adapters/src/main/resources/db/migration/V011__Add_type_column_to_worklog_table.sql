@@ -1,0 +1,2 @@
+ALTER TABLE public.worklog
+    ADD type VARCHAR(64) NOT NULL DEFAULT 'UNKNOWN';

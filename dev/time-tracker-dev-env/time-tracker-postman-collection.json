@@ -1,0 +1,220 @@
+{
+  "info": {
+    "_postman_id": "71a959d7-1c04-4ebf-95f7-a5badfe6431b",
+    "name": "TimeTracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24484068"
+  },
+  "item": [
+    {
+      "name": "Employee",
+      "item": [
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\" : \"\",\r\n    \"lastName\" : \"\",\r\n    \"email\" : \"\",\r\n    \"password\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/employee",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "employee"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Leave",
+      "item": [
+        {
+          "name": "Request Leave",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"employeeId\" : \"\",\r\n    \"startTime\" : \"\",\r\n    \"endTime\" : \"\",\r\n    \"description\" : \"\",\r\n    \"leaveType\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/leave",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "leave"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Leave",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\" : \"\",\r\n    \"responseComment\" : \"\",\r\n    \"responderId\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/leave/approve",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "leave",
+                "approve"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deny Leave",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\" : \"\",\r\n    \"responseComment\" : \"\",\r\n    \"responderId\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/leave/deny",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "leave",
+                "deny"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Worklog",
+      "item": [
+        {
+          "name": "Add Worklog",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"employeeId\" : \"\",\r\n    \"taskName\" : \"\",\r\n    \"description\" : \"\",\r\n    \"startTime\" : \"\",\r\n    \"endTime\" : \"\",\r\n    \"totalTime\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/worklog",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "worklog"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Worklog",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\" : \"\",\r\n    \"employeeId\" : \"\",\r\n    \"taskName\" : \"\",\r\n    \"description\" : \"\",\r\n    \"startTime\" : \"\",\r\n    \"endTime\" : \"\",\r\n    \"totalTime\" : \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/worklog",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "worklog"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch Employee Worklogs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/worklog?employeeId",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "worklog"
+              ],
+              "query": [
+                {
+                  "key": "employeeId",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

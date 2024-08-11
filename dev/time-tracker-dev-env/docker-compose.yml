@@ -1,0 +1,144 @@
+services:
+  keycloakdb:
+    image: postgres:10.1
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: my_admin
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: time_tracker_db
+    ports:
+      - "5432:5432"
+    networks:
+      - timetracker-network
+
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:18.0.2
+#    environment:
+#      KC_DB: postgres
+#      KC_DB_URL: keycloakdb
+#      KC_DB_USERNAME: my_admin
+#      KC_DB_PASSWORD: my_password
+#      KEYCLOAK_ADMIN: kc_admin
+#      KEYCLOAK_ADMIN_PASSWORD: kc_password
+#      KEYCLOAK_IMPORT: /tmp/tt_realm_config.json
+#      JAVA_OPTS: "-Dkeycloak.profile.feature.upload_scripts=enabled"
+#      ###>KC_DB: time_tracker_db
+#      ###>KC_DB_URL: jdbc:postgresql://keycloakdb:5432/time_tracker_db
+#      ###>KC_DB_USERNAME: my_admin
+#      ###>KC_DB_PASSWORD: my_password
+#      ###>KC_HOSTNAME: localhost
+#      #2DB_VENDOR: postgres #
+#      #KEYCLOAK_DATABASE_VENDOR: postgres
+#      #2DB_ADDR: keycloakdb #
+#      #KEYCLOAK_DATABASE_HOST: keycloakdb
+#      #KEYCLOAK_DATABASE_PORT: 5432
+#      #2DB_DATABASE: time_tracker_db #
+#      #KEYCLOAK_DATABASE_NAME: time_tracker_db
+#      #2DB_SCHEMA: public #
+#      #KEYCLOAK_DATABASE_SCHEMA: public
+#      #2DB_USER: my_admin #
+#      #KEYCLOAK_DATABASE_USER: my_admin
+#      #2DB_PASSWORD: my_password #
+#      #KEYCLOAK_DATABASE_PASSWORD: my_password
+#      #KEYCLOAK_HOSTNAME: backend-keycloak-auth
+#      #KEYCLOAK_ADMIN: kc_admin
+#      #KEYCLOAK_ADMIN_PASSWORD: kc_password
+#      #KEYCLOAK_JDBC_DRIVER: postgresql
+#      #2KEYCLOAK_IMPORT: /tmp/tt_realm_config.json -Dkeycloak.profile.feature.upload_scripts=enabled
+#      ##KEYCLOAK_CONF_FILE: /tmp/tt_realm_config.json
+#    entrypoint: ['/opt/keycloak/bin/kc.sh']
+#    ports:
+#      - 8080:8080
+#    volumes:
+#      - ./tt_realm_config.json:/tmp/tt_realm_config.json
+#    depends_on:
+#      - keycloakdb
+#    networks:
+#      - timetracker-network
+  keycloak:
+    image: quay.io/keycloak/keycloak:16.0.0
+    environment:
+      KEYCLOAK_ADMIN: kc_admin
+      KEYCLOAK_ADMIN_PASSWORD: kc_password
+      KEYCLOAK_USER: kc_admin
+      KEYCLOAK_PASSWORD: kc_password
+      DB_URL: keycloakdb
+      DB_VENDOR: postgres
+      DB_USER: my_admin
+      DB_PASSWORD: my_password
+      DB_ADDR: keycloakdb
+    networks:
+      - timetracker-network
+    depends_on:
+      - keycloakdb
+    volumes:
+      - ./tt_realm_config.json:/tmp/tt_realm_config.json
+    ports:
+      - 8080:9990
+
+  postgres:
+    container_name: timetrackerdb
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: timetracker
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5431:5432"
+    networks:
+      - timetracker-network
+
+  pgadmin:
+    container_name: pgadmin_op
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: somepass
+    networks:
+      - timetracker-network
+    ports:
+      - "5000:80"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    ports:
+      - "9200:9200"
+    environment:
+      - ELASTIC_PASSWORD=dev
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - es-net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
+    volumes:
+      - kibana-data:/usr/share/kibana/data
+    networks:
+      - es-net
+
+volumes:
+  elasticsearch-data:
+    driver: local
+  kibana-data:
+    driver: local
+
+networks:
+  es-net:
+    driver: bridge
+  timetracker-network:
+    driver: bridge

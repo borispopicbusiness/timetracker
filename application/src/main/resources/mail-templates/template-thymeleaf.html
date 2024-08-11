@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<p th:text="#{text(${employeeName})}"></p>
+<p><a th:href="@{${platformRedirectionUrl}}"><b th:text="#{redirectionUrlInfo}"></b></a></p>
+<p th:text="#{regards}"></p>
+
+<em th:text="${senderName}"></em> <br/>
+<img src="cid:attachment.png"/>
+</p>
+</body>
+</html>
