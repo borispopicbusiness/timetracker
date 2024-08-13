@@ -18,6 +18,8 @@ The realm update will be available in the develop branch, but the docker-compose
 improved yet due to ongoing testing. The complete issue is expected to be officially closed within the 
 next two to three days.
 
+Status: Dockerfile made, realm import is performed manually. checkout origin/develop
+
 ## Introduction
 
 This is my time tracker web app, actually its backend part, developed in Java.
