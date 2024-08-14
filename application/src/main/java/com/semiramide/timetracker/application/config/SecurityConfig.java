@@ -31,35 +31,35 @@ public class SecurityConfig {
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_ADMIN")))
+                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
                 .requestMatchers(
                     HttpMethod.DELETE, "/employee/**", "/project/**", "/project-employees/**")
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_ADMIN")))
+                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
                 .requestMatchers(HttpMethod.PUT, "/employee/me/**")
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_EMPLOYEE", "ROLE_ADMIN")))
+                        AuthorityAuthorizationManager.hasAnyRole("EMPLOYEE", "ADMIN")))
                 .requestMatchers(HttpMethod.PUT, "/project/**", "/employee/**")
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_ADMIN")))
+                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
                 .requestMatchers("/admin/**")
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_ADMIN")))
+                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
                 .requestMatchers("/test/**")
                 .permitAll()
                 .requestMatchers("/**")
                 .access(
                     AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAnyAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ROLE_EMPLOYEE", "ROLE_ADMIN"))));
+                        AuthorityAuthorizationManager.hasAnyRole("EMPLOYEE", "ADMIN"))));
     http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtRolesConverter);
     return http.build();
   }
