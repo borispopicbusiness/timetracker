@@ -14,11 +14,10 @@ Go to: [The keycloak docker issue](https://github.com/borispopicbusiness/timetra
 Go to [The keycloak docker issue](https://github.com/borispopicbusiness/timetracker/issues/1#issue-2461832992)
 
 The issue is still officially open. For now, the README.md update has been pushed to the master branch. 
-The realm update will be available in the develop branch, but the docker-compose.yml has not been 
-improved yet due to ongoing testing. The complete issue is expected to be officially closed within the 
-next two to three days.
+The realm update is available in master branch, the docker-compose.yml is improved. The complete issue
+is expected to be officially closed within the next two to three days due to new tests.
 
-Status: Dockerfile made, realm import is performed manually. checkout origin/develop
+Status: Dockerfile made, realm import is performed automatically.
 
 ## Introduction
 
@@ -55,6 +54,14 @@ mvn clean install -f ./timetracker
 NOTE: Check the Keycloak Docker issue
 
 After successfully running tests and compiling the application, you can start the backend part.
+
+First go to ./dev/time-tracker-dev-env/ perform
+
+docker ubild . -t keycloak-ubuntu-test:4
+
+THat will generate a docker image for Keycloak.
+
+Then run
 
 docker-compose up
 
