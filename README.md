@@ -57,7 +57,7 @@ After successfully running tests and compiling the application, you can start th
 
 First go to ./dev/time-tracker-dev-env/ perform
 
-docker ubild . -t keycloak-ubuntu-test:4
+docker build . -t keycloak-ubuntu-test:4
 
 THat will generate a docker image for Keycloak.
 
