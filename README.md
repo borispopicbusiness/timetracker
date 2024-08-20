@@ -76,3 +76,33 @@ mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.gateway.Gateway" -f .
 Next
 
 mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.Backend" -f ./timetracker/application
+
+#### Testing Keycloak flow
+
+After you build and run the keycloak image and container, execute the following steps:
+    - sudo apt install jq       if you do not already have it
+    - go to /dev/time-tracker-dev-env
+    - chmod +x ./keycloak-flow-test.sh
+    ./keycloak-flow-test.sh
+
+If the output looks like the following one then tke keycloak works according to the desired behaviour:
+
+            Requesting access token...
+            Access token obtained successfully.
+            Creating a user...
+            Create user response:
+
+            Fetching user ID for email newuser@example.com...
+            User ID retrieved: 1411213d-e813-415f-a9dd-cf742639af8a
+            Updating user 1411213d-e813-415f-a9dd-cf742639af8a...
+            Update user response:
+
+            Assigning role EMPLOYEE to user 1411213d-e813-415f-a9dd-cf742639af8a...
+            Requesting client ID...
+            Client ID retrieved: 76e3892b-f346-4518-9720-897e6dbc9dbe
+            Role ID response:
+            [{"id":"004aeda0-a42b-4ddc-8371-3c7c9d56d212","name":"EMPLOYEE","composite":false,"clientRole":true,"containerId":"76e3892b-f346-4518-9720-897e6dbc9dbe"},{"id":"7ee5a884-ffd5-48e2-b5ae-0ca97248b3dc","name":"ADMIN","composite":false,"clientRole":true,"containerId":"76e3892b-f346-4518-9720-897e6dbc9dbe"}]
+            Assign role response:
+
+            Deleting user 1411213d-e813-415f-a9dd-cf742639af8a...
+            Delete user response:
