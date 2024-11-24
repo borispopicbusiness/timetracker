@@ -1,4 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b12a080d-0b36-440a-a6c5-2368a6ba02b3/deploy-status)](https://app.netlify.com/sites/dapper-stroopwafel-83fd3e/deploys)
 # Time tracker
 
 ## The keycloak docker issue, Important Note:
