@@ -71,11 +71,11 @@ docker-compose up -d
 
 Next, you need to start the Gateway. If you are in the parent directory of timetracker, use the following command:
 
-mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.gateway.Gateway" -f ./timetracker/gateway
+mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.gateway.Gateway" -f ./gateway
 
 Next
 
-mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.Backend" -f ./timetracker/application
+mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.Backend" -f ./application
 
 #### Testing Keycloak flow
 

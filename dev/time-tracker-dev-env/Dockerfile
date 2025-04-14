@@ -21,7 +21,7 @@ WORKDIR /keycloak-25.0.2
 #RUN mkdir -p /keycloak-25.0.2/data/import
 #RUN cp /root/keycloak-25.0.2/data/import/tt_import_realm.json /keycloak-25.0.2/data/import/tt_import_realm.json
 
-EXPOSE 8080 9990
+EXPOSE 8080 9990 8081 3000
 
 ENTRYPOINT ["/keycloak-25.0.2/bin/kc.sh"]
 CMD ["start-dev", "--import-realm"]

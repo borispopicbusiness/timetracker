@@ -12,7 +12,7 @@ services:
       - timetracker-network
 
   keycloak:
-    image: keycloak-ubuntu-test:4
+    image: borispopicdev/keycloak-ubuntu-test:6
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloakdb:5432/time_tracker_db
@@ -20,6 +20,7 @@ services:
       KC_DB_PASSWORD: my_password
     ports:
       - "8080:8080"
+      - "8081:8081"
     networks:
       - timetracker-network
     depends_on:
