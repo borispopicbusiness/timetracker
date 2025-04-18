@@ -1,5 +1,12 @@
 # Time tracker
 
+The front-end component is currently under active development and has encountered CORS-related
+issues. As a temporary solution, Nginx has been configured to handle cross-origin requests.
+On the networking side, additional adjustments are required to ensure a more secure and efficient
+setup. At this stage, certain ports remain exposed, which will be addressed in future iterations.
+The master branch is reserved for stable builds; however, this does not imply that the project is
+complete. Development is ongoing across multiple areas.
+
 ## The keycloak docker issue, Important Note:
 
 I am still addressing the Keycloak issue. I plan to build a custom Docker 

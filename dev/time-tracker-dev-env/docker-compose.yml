@@ -81,6 +81,16 @@ services:
     networks:
       - es-net
 
+  nginx:
+    image: nginx:alpine  # Use official Nginx image
+    container_name: nginx-cors-proxy
+    ports:
+      - "80:80"  # Expose Nginx on port 80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Mount your custom Nginx config
+    networks:
+      - timetracker-network
+
 volumes:
   elasticsearch-data:
     driver: local
