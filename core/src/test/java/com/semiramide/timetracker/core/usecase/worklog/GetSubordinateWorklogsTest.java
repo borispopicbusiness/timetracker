@@ -86,7 +86,7 @@ class GetSubordinateWorklogsTest {
 
   @Test
   @DisplayName("Should return worklogs of subordinate.")
-  void should_ReturnWorklogsOfSubordinate()
+  void shouldReturnWorklogsWhenSubordinateExists()
       throws NotReachableNodeException, EmployeeNotFoundException {
 
     List<Employee> employees = helper.generateEmployeesList();
@@ -107,7 +107,7 @@ class GetSubordinateWorklogsTest {
 
   @Test
   @DisplayName("Should throw exception when subordinate id is invalid")
-  void should_ThrowException_When_SubordinateIdIsInvalid() {
+  void shouldThrowExceptionWhenSubordinateNotFound() {
     List<Employee> employees = helper.generateEmployeesList();
     helper.initializeStartingGraph(employeeHierarchyGraph, employees);
 
@@ -128,7 +128,7 @@ class GetSubordinateWorklogsTest {
 
   @Test
   @DisplayName("Should throw exception when logged employee id is invalid")
-  void should_ThrowException_When_ParentIdIsInvalid() {
+  void shouldThrowExceptionWhenParentNotFound() {
     List<Employee> employees = helper.generateEmployeesList();
     helper.initializeStartingGraph(employeeHierarchyGraph, employees);
 
@@ -149,7 +149,7 @@ class GetSubordinateWorklogsTest {
 
   @Test
   @DisplayName("Should throw exception when subordinate id is not child of logged employee")
-  void should_ThrowException_When_SubordinateIsNotChild() {
+  void shouldThrowExceptionWhenSubordinateIsNotChild() {
     List<Employee> employees = helper.generateEmployeesList();
     helper.initializeStartingGraph(employeeHierarchyGraph, employees);
 
