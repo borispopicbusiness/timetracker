@@ -15,12 +15,15 @@ import com.semiramide.timetracker.core.service.impl.ProjectServiceImpl;
 import com.semiramide.timetracker.core.service.impl.WorklogServiceImpl;
 import com.semiramide.timetracker.core.usecase.WorklogUseCase;
 import com.semiramide.timetracker.core.usecase.impl.WorklogUseCaseImpl;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class GetOwnWorklogsTest {
 
@@ -59,13 +62,26 @@ class GetOwnWorklogsTest {
 
   @Test
   @DisplayName("Should return worklogs of logged employee")
-  void should_ReturnOwnWorklogs() throws EmployeeNotFoundException {
-    List<Worklog> ownWorklogs = List.of(new Worklog(), new Worklog());
+  void shouldReturnOwnWorklogs() throws EmployeeNotFoundException {
     UUID loggedUser = UUID.randomUUID();
+    List<Worklog> ownWorklogs = List.of(createWorklog("testOne", LocalDateTime.now(), loggedUser),
+            createWorklog("testTwo", LocalDateTime.now(), loggedUser));
     when(worklogUseCase.getOwnWorklogs(loggedUser)).thenReturn(ownWorklogs);
 
     worklogUseCase.getOwnWorklogs(loggedUser);
 
-    verify(worklogRepository).findWorklogsByEmployeeId(loggedUser);
+    verify(worklogRepository, Mockito.times(1)).findWorklogsByEmployeeId(loggedUser);
   }
+
+  private Worklog createWorklog(String taskName, LocalDateTime startTime, UUID employeeId) {
+    return Worklog.builder()
+            .id(UUID.randomUUID())
+            .employeeId(employeeId)
+            .taskName(taskName)
+            .startTime(startTime)
+            .endTime(startTime.plusHours(1))
+            .totalTime(1.0)
+            .build();
+  }
+
 }
