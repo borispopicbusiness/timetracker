@@ -8,6 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Builder
 @ConfigurationProperties(prefix = "op.gateway")
 public class GatewayProperties {
-
-  private String backendHost;
+    private String backendHost;
 }
