@@ -41,7 +41,7 @@ class CreateProjectTest {
 
   @Test
   @DisplayName("Should create project when data is valid.")
-  void should_CreateProject_When_DataIsValid()
+  void shouldCreateProjectWhenDataIsValid()
       throws ProjectNameAlreadyTakenException, NoProjectFoundException {
 
     when(projectRepository.findByName(project.getName())).thenReturn(Optional.empty());
@@ -53,7 +53,7 @@ class CreateProjectTest {
 
   @Test
   @DisplayName("should throw exception when project with the same name already exist in database")
-  void should_ThrowException_When_NameIsTaken() {
+  void shouldThrowExceptionWhenNameIsTaken() {
 
     when(projectRepository.findByName(project.getName())).thenReturn(Optional.ofNullable(project));
 

@@ -28,7 +28,7 @@ public class EditEmployeeTest {
   private AppEventPublisher eventPublisher;
 
   @BeforeEach
-  void setup() {
+  void setUp() {
     employeeRepository = mock(EmployeeRepository.class);
     securityProvider = mock(SecurityProvider.class);
     eventPublisher = mock(AppEventPublisher.class);
@@ -43,8 +43,7 @@ public class EditEmployeeTest {
   }
 
   @Test
-  void should_EditEmployee() throws EmailAlreadyExistsException, EmployeeNotFoundException {
-    // given
+  void shouldEditEmployee() throws EmailAlreadyExistsException, EmployeeNotFoundException {
     UUID employeeId = UUID.randomUUID();
 
     Employee expectedEmployee =
@@ -55,11 +54,9 @@ public class EditEmployeeTest {
             .email("email1")
             .build();
 
-    // when
     when(employeeRepository.findEmployeeById(employeeId)).thenReturn(Optional.of(expectedEmployee));
     employeeUseCase.updateEmployee(expectedEmployee);
 
-    // then
     verify(employeeRepository).saveEmployee(expectedEmployee);
   }
 }

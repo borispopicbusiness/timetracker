@@ -41,7 +41,7 @@ class EditProjectTest {
   @Test
   @DisplayName("Should update project.")
   // should this be changed
-  void should_UpdateProject() throws NoProjectFoundException {
+  void shouldUpdateProject() throws NoProjectFoundException {
     Project updatedProject =
         Project.builder()
             .id(oldProject.getId())

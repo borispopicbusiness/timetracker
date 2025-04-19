@@ -31,9 +31,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
 class DeleteEmployeeTest {
-
   private Helper helper;
-
   private EmployeeUseCase useCase;
   private LeaveService leaveService;
   private WorklogService worklogService;
@@ -41,7 +39,6 @@ class DeleteEmployeeTest {
   private EmployeeService employeeService;
   private EmployeeHierarchyService employeeHierarchyService;
   private EmployeeHierarchyGraph graph;
-
   private WorklogRepository worklogRepository;
   private ProjectEmployeeRepository projectEmployeeRepository;
   private LeaveRepository leaveRepository;
@@ -51,7 +48,7 @@ class DeleteEmployeeTest {
   private EmployeeHierarchyRepository employeeHierarchyRepository;
 
   @BeforeEach
-  void setup() {
+  void setUp() {
     helper = new Helper();
     worklogRepository = mock(WorklogRepository.class);
     projectEmployeeRepository = mock(ProjectEmployeeRepository.class);
@@ -95,8 +92,7 @@ class DeleteEmployeeTest {
 
   @Test
   @DisplayName(value = "Should delete employee from DB and rearrange graph accordingly")
-  void should_DeleteEmployee() throws EmployeeNotFoundException {
-    // given
+  void shouldDeleteEmployee() throws EmployeeNotFoundException {
     List<Employee> employees = helper.generateEmployeesList();
     helper.initializeStartingGraph(graph, employees);
 
@@ -115,12 +111,10 @@ class DeleteEmployeeTest {
         .publishEvent(EmployeeDeletedEvent.builder().employee(employees.get(1)).build());
     ArgumentCaptor<Object> argument = ArgumentCaptor.forClass(Object.class);
 
-    // when
     EmployeeHierarchyGraph expectedGraph = new GuavaMutableGraph();
     helper.initializeExpectedGraph(expectedGraph, employees);
     useCase.removeEmployee(employees.get(1).getId());
 
-    // then
     verify(eventPublisher, times(3)).publishEvent(argument.capture());
     List<Object> events = argument.getAllValues();
     assertTrue(

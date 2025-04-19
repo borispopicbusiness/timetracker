@@ -73,7 +73,7 @@ public class ApproveLeaveTest {
   }
 
   @Test
-  void should_Approve_LeaveRequest() throws EmployeeNotFoundException, FreeDaysLeftException {
+  void shouldApproveLeaveRequest() throws EmployeeNotFoundException, FreeDaysLeftException {
     UUID id = UUID.randomUUID();
     Employee employee =
         Employee.builder().id(id).firstName("Pera").lastName("Peric").freeDaysLeft(20).build();
@@ -92,7 +92,7 @@ public class ApproveLeaveTest {
   }
 
   @Test
-  void should_Return_FreeDaysLeftException() {
+  void shouldReturnFreeDaysLeftException() {
     UUID id = UUID.randomUUID();
     Employee employee =
         Employee.builder().id(id).firstName("Pera").lastName("Peric").freeDaysLeft(5).build();
@@ -108,7 +108,7 @@ public class ApproveLeaveTest {
   }
 
   @Test
-  void should_Return_EmployeeNotFoundException() {
+  void shouldReturnEmployeeNotFoundException() {
     UUID id = UUID.randomUUID();
     Employee employee =
         Employee.builder().id(id).firstName("Pera").lastName("Peric").freeDaysLeft(5).build();

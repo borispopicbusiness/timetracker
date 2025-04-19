@@ -26,18 +26,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CreateEmployeeTest {
-
   private EmployeeUseCase employeeUseCase;
   private EmployeeService employeeService;
   private EmployeeHierarchyService employeeHierarchyService;
   private EmployeeHierarchyGraph employeeHierarchyGraph;
-
   private AppEventPublisher eventPublisher;
   private EmployeeRepository employeeRepository;
   private EmployeeHierarchyRepository employeeHierarchyRepository;
 
   @BeforeEach
-  void setup() {
+  void setUp() {
     eventPublisher = mock(AppEventPublisher.class);
     employeeRepository = mock(EmployeeRepository.class);
     employeeHierarchyRepository = mock(EmployeeHierarchyRepository.class);
@@ -67,8 +65,7 @@ class CreateEmployeeTest {
   @Test
   @Disabled
   @DisplayName(value = "Create employee - happy path")
-  void should_CreateEmployee_When_AllConditionsAreMet() throws EmailAlreadyExistsException {
-    // given
+  void shouldCreateEmployeeWhenAllConditionsAreMet() throws EmailAlreadyExistsException {
     UUID id = UUID.randomUUID();
     String email = "email@example.com";
     String firstName = "firstName";
@@ -101,7 +98,7 @@ class CreateEmployeeTest {
     // then
     verify(employeeRepository).findEmployeeByEmail(newEmployeeData.getEmail());
     verify(employeeRepository).saveEmployee(newEmployeeData);
-    assertEquals(expectedCreatedEmployeeOptional, actualCreatedEmployeeOptional);
+    assertEquals(expectedCreatedEmployeeOptional.get(), actualCreatedEmployeeOptional);
     verify(eventPublisher)
         .publishEvent(
             EmployeeCreatedEvent.builder().employee(actualCreatedEmployeeOptional).build());

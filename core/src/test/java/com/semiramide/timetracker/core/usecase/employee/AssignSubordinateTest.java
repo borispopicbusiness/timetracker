@@ -71,12 +71,11 @@ class AssignSubordinateTest {
 
   @Test
   @DisplayName(value = "Assign subordinate - happy path")
-  void should_AssignSubordinate()
+  void shouldAssignSubordinate()
       throws CycleDetectedException,
           EmployeeNotFoundException,
           InvalidArgumentException,
           AlreadyASubordinateException {
-    // given
     Employee parent = Employee.builder().build();
     Employee child = Employee.builder().build();
 
@@ -88,25 +87,21 @@ class AssignSubordinateTest {
     when(employeeRepository.findEmployeeById(parent.getId())).thenReturn(Optional.of(parent));
     when(employeeRepository.findEmployeeById(child.getId())).thenReturn(Optional.of(child));
 
-    // when
     employeeUseCase.assignSubordinate(parent.getId(), child.getId());
 
-    // then
     verify(employeeHierarchyRepository).saveEmployeeHierarchyEntry(employeeHierarchyEntry);
     verify(eventPublisher)
         .publishEvent(SubordinateAssignedEvent.builder().parent(parent).child(child).build());
   }
 
   @Test
-  void should_ThrowCycleDetectedException_When_CycleDetected() {
-    // given
+  void shouldThrowCycleDetectedExceptionWhenCycleDetected() {
     UUID node_1_id = UUID.randomUUID();
     UUID node_2_id = UUID.randomUUID();
     UUID node_3_id = UUID.randomUUID();
+
     Employee node_1 = Employee.builder().id(node_1_id).email("node1").firstName("node 1").build();
-
     Employee node_2 = Employee.builder().id(node_2_id).email("node2").firstName("node 2").build();
-
     Employee node_3 = Employee.builder().id(node_3_id).email("node3").firstName("node 3").build();
 
     EmployeeHierarchyEntry employeeHierarchyEntry =
@@ -123,7 +118,6 @@ class AssignSubordinateTest {
     when(employeeRepository.findEmployeeById(node_2_id)).thenReturn(Optional.of(node_2));
     when(employeeRepository.findEmployeeById(node_3_id)).thenReturn(Optional.of(node_3));
 
-    // then
     assertAll(
         () ->
             assertThrows(
@@ -136,8 +130,8 @@ class AssignSubordinateTest {
   }
 
   @Test
-  void should_ThrowAlreadyASubordinateException_When_ChildAlreadyReachableFromParent() {
-    // given
+  void shouldThrowAlreadyASubordinateExceptionWhenChildAlreadyReachableFromParent() {
+
     Employee e1 = Employee.builder().build();
     Employee e2 = Employee.builder().build();
     Employee e3 = Employee.builder().build();
@@ -151,7 +145,6 @@ class AssignSubordinateTest {
     when(employeeRepository.findEmployeeById(e2.getId())).thenReturn(Optional.of(e2));
     when(employeeRepository.findEmployeeById(e3.getId())).thenReturn(Optional.of(e3));
 
-    // then
     assertAll(
         () ->
             assertThrows(

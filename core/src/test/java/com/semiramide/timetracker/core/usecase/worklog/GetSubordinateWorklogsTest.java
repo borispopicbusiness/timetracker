@@ -32,26 +32,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GetSubordinateWorklogsTest {
-
   private WorklogUseCase worklogUseCase;
-
   private WorklogService worklogService;
-
-  private EmployeeHierarchyService employeeHierarchyService;
-
-  private WorklogRepository worklogRepository;
-
-  private EmployeeRepository employeeRepository;
-
-  private ProjectRepository projectRepository;
-
   private EmployeeService employeeService;
-
   private ProjectService projectService;
 
+  private WorklogRepository worklogRepository;
+  private EmployeeRepository employeeRepository;
+  private ProjectRepository projectRepository;
+
+  private EmployeeHierarchyService employeeHierarchyService;
+  private EmployeeHierarchyRepository employeeHierarchyRepository;
   private EmployeeHierarchyGraph employeeHierarchyGraph;
 
-  private EmployeeHierarchyRepository employeeHierarchyRepository;
   private Helper helper;
 
   @BeforeEach

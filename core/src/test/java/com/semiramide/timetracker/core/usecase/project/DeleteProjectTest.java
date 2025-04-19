@@ -39,7 +39,7 @@ class DeleteProjectTest {
 
   @Test
   @DisplayName("Should delete project with given id.")
-  void should_DeleteProjectWithGivenId() throws NoProjectFoundException {
+  void shouldDeleteProjectWithGivenId() throws NoProjectFoundException {
 
     when(projectRepository.findProjectById(project.getId())).thenReturn(Optional.of(project));
 
@@ -50,7 +50,7 @@ class DeleteProjectTest {
 
   @Test
   @DisplayName("should throw exception when project, with given id, does not exist,")
-  void should_ThrowException_When_ProjectDoesNotExist() throws NoProjectFoundException {
+  void shouldThrowExceptionWhenProjectDoesNotExist() throws NoProjectFoundException {
 
     doThrow(NoProjectFoundException.class)
         .when(projectRepository)

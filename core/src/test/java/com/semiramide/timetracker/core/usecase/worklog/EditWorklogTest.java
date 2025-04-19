@@ -32,46 +32,33 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EditWorklogTest {
-
   private WorklogUseCase worklogUseCase;
-
   private WorklogService worklogService;
-
   private WorklogRepository worklogRepository;
-
   private Worklog worklog;
-
   private Worklog updatedWorklog;
-
   private EmployeeRepository employeeRepository;
-
   private ProjectRepository projectRepository;
-
   private EmployeeService employeeService;
-
   private ProjectService projectService;
 
   @BeforeEach
   void setUp() {
-
     worklogRepository = mock(WorklogRepository.class);
     projectRepository = mock(ProjectRepository.class);
     employeeRepository = mock(EmployeeRepository.class);
 
     worklogService = WorklogServiceImpl.builder().worklogRepository(worklogRepository).build();
-
     projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
-
     employeeService = EmployeeServiceImpl.builder().employeeRepository(employeeRepository).build();
-    worklogUseCase =
-        WorklogUseCaseImpl.builder()
+
+    worklogUseCase = WorklogUseCaseImpl.builder()
             .worklogService(worklogService)
             .projectService(projectService)
             .employeeService(employeeService)
             .build();
 
-    worklog =
-        Worklog.builder()
+    worklog = Worklog.builder()
             .id(UUID.randomUUID())
             .employeeId(UUID.randomUUID())
             .taskName("WorklogTest")
@@ -83,8 +70,7 @@ class EditWorklogTest {
             .projectId(UUID.randomUUID())
             .build();
 
-    updatedWorklog =
-        Worklog.builder()
+    updatedWorklog = Worklog.builder()
             .id(worklog.getId())
             .taskName("Updated worklog")
             .description("This is updated worklog")
@@ -99,7 +85,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should edit worklog.")
-  void should_EditWorklog()
+  void shouldEditWorklog()
       throws NoProjectFoundException,
           EmployeeNotFoundException,
           WorklogNotFoundException,
@@ -123,7 +109,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should not update worklog if worklogId is invalid.")
-  void should_NotUpdateWorklog_When_WorklogIdIsInvalid() {
+  void shouldNotUpdateWorklogWhenWorklogIdIsInvalid() {
 
     when(worklogRepository.findWorklogById(worklog.getId())).thenReturn(Optional.empty());
     when(projectRepository.findProjectById(worklog.getProjectId()))
@@ -139,7 +125,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should not update worklog if employee id is invalid.")
-  void should_NotUpdateWorklog_When_EmployeeIdIsInvalid() {
+  void shouldNotUpdateWorklogWhenEmployeeIdIsInvalid() {
 
     when(worklogRepository.findWorklogById(worklog.getId()))
         .thenReturn(Optional.ofNullable(worklog));
@@ -155,7 +141,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should not update worklog if project id is invalid.")
-  void should_NotUpdateWorklog_When_ProjectIdIsInvalid() {
+  void shouldNotUpdateWorklogWhenProjectIdIsInvalid() {
 
     when(worklogRepository.findWorklogById(worklog.getId()))
         .thenReturn(Optional.ofNullable(worklog));
@@ -170,7 +156,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should not update worklog when start time, end time, and total time are null.")
-  void should_NotUpdateWorklog_When_DataIsInvalid() {
+  void shouldNotUpdateWorklogWhenDataIsInvalid() {
 
     updatedWorklog.setStartTime(null);
     updatedWorklog.setEndTime(null);
@@ -191,7 +177,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should  update worklog when only start time is null.")
-  void should_UpdateWorklog_When_OnlyStartTimeIsNull()
+  void shouldUpdateWorklogWhenOnlyStartTimeIsNull()
       throws NoProjectFoundException,
           WorklogNotFoundException,
           EmployeeNotFoundException,
@@ -215,7 +201,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should  update worklog when only end time is null.")
-  void should_UpdateWorklog_When_OnlyEndTimeIsNull()
+  void shouldUpdateWorklogWhenOnlyEndTimeIsNull()
       throws NoProjectFoundException,
           WorklogNotFoundException,
           EmployeeNotFoundException,
@@ -239,7 +225,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should update worklog when only total time is null")
-  void should_UpdateWorklog_When_OnlyTotalTimeIsNull()
+  void shouldUpdateWorklogWhenOnlyTotalTimeIsNull()
       throws NoProjectFoundException,
           WorklogNotFoundException,
           EmployeeNotFoundException,
@@ -263,7 +249,7 @@ class EditWorklogTest {
 
   @Test
   @DisplayName("Should update worklog when only total time is not null")
-  void should_UpdateWorklog_When_OnlyTotalTimeIsNotNull()
+  void shouldUpdateWorklogWhenOnlyTotalTimeIsNotNull()
       throws NoProjectFoundException,
           WorklogNotFoundException,
           EmployeeNotFoundException,

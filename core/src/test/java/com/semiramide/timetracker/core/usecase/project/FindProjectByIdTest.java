@@ -44,7 +44,7 @@ class FindProjectByIdTest {
 
   @Test
   @DisplayName("Should find project by given id.")
-  void should_FindProjectWithGivenId() throws NoProjectFoundException {
+  void shouldFindProjectWithGivenId() throws NoProjectFoundException {
 
     when(projectRepository.findProjectById(id)).thenReturn(Optional.of(project));
 

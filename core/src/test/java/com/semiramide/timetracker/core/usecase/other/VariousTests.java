@@ -12,12 +12,11 @@ import org.junit.jupiter.api.Test;
 public class VariousTests {
 
   @Test
-  void testSetsIntersection() {
+  void shouldBeOnlyOneIntersection() {
     List<String> l1 = Arrays.asList("a", "b", "c", "d");
     List<String> l2 = Arrays.asList("a", "e", "f", "g");
     assertFalse(Sets.intersection(new HashSet<>(l1), new HashSet<>(l2)).isEmpty());
     assertEquals(1, Sets.intersection(new HashSet<>(l1), new HashSet<>(l2)).size());
-    assertEquals(
-        "a", Sets.intersection(new HashSet<>(l1), new HashSet<>(l2)).stream().iterator().next());
+    assertEquals("a", Sets.intersection(new HashSet<>(l1), new HashSet<>(l2)).stream().iterator().next());
   }
 }
