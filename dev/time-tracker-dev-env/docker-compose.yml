@@ -81,6 +81,16 @@ services:
     networks:
       - es-net
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-cors-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - timetracker-network
+
 volumes:
   elasticsearch-data:
     driver: local
