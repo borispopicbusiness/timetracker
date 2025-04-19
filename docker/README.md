@@ -1,10 +1,5 @@
 # How to build images
 
-## Prerequisites
-
-1. In order to build images you need to have Docker installed on your PC
-2. Checkout repo to get the latest Dockerfiles and code
-
 ## Build steps
 
 1. Do Maven clean and package
