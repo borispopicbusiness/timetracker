@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 @Builder
 public class SubordinateUnassignedEvent {
-
-  private EmployeeHierarchyEntry entry;
+    private EmployeeHierarchyEntry entry;
 }

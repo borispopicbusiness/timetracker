@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProjectEmployeeRepository {
-  List<ProjectEmployee> findAll();
+    List<ProjectEmployee> findAll();
 
-  ProjectEmployee save(ProjectEmployee projectEmployee);
+    ProjectEmployee save(ProjectEmployee projectEmployee);
 
-  void deleteById(UUID id);
+    void deleteById(UUID id);
 
-  void deleteByEmployeeId(UUID employeeId);
+    void deleteByEmployeeId(UUID employeeId);
 
-  void deleteByProjectIdAndEmployeeId(UUID projectID, UUID employeeId);
+    void deleteByProjectIdAndEmployeeId(UUID projectID, UUID employeeId);
 
-  List<ProjectEmployee> findByEmployeesId(UUID id);
+    List<ProjectEmployee> findByEmployeesId(UUID id);
 
-  List<ProjectEmployee> findByProjectId(UUID id);
+    List<ProjectEmployee> findByProjectId(UUID id);
 }

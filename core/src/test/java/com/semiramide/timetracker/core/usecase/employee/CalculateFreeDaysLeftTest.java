@@ -15,6 +15,7 @@ import com.semiramide.timetracker.core.service.impl.EmployeeHierarchyServiceImpl
 import com.semiramide.timetracker.core.service.impl.EmployeeServiceImpl;
 import com.semiramide.timetracker.core.usecase.EmployeeUseCase;
 import com.semiramide.timetracker.core.usecase.impl.EmployeeUseCaseImpl;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -23,54 +24,54 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CalculateFreeDaysLeftTest {
-  private EmployeeUseCase employeeUseCase;
-  private EmployeeService employeeService;
-  private EmployeeHierarchyService employeeHierarchyService;
-  private EmployeeHierarchyGraph employeeHierarchyGraph;
-  private AppEventPublisher eventPublisher;
-  private EmployeeRepository employeeRepository;
-  private EmployeeHierarchyRepository employeeHierarchyRepository;
+    private EmployeeUseCase employeeUseCase;
+    private EmployeeService employeeService;
+    private EmployeeHierarchyService employeeHierarchyService;
+    private EmployeeHierarchyGraph employeeHierarchyGraph;
+    private AppEventPublisher eventPublisher;
+    private EmployeeRepository employeeRepository;
+    private EmployeeHierarchyRepository employeeHierarchyRepository;
 
-  @BeforeEach
-  void setUp() {
-    eventPublisher = mock(AppEventPublisher.class);
-    employeeRepository = mock(EmployeeRepository.class);
-    employeeHierarchyRepository = mock(EmployeeHierarchyRepository.class);
+    @BeforeEach
+    void setUp() {
+        eventPublisher = mock(AppEventPublisher.class);
+        employeeRepository = mock(EmployeeRepository.class);
+        employeeHierarchyRepository = mock(EmployeeHierarchyRepository.class);
 
-    employeeHierarchyGraph = new GuavaMutableGraph();
+        employeeHierarchyGraph = new GuavaMutableGraph();
 
-    employeeHierarchyService =
-        EmployeeHierarchyServiceImpl.builder()
-            .employeeHierarchyRepository(employeeHierarchyRepository)
-            .employeeHierarchyGraph(employeeHierarchyGraph)
-            .build();
+        employeeHierarchyService =
+                EmployeeHierarchyServiceImpl.builder()
+                        .employeeHierarchyRepository(employeeHierarchyRepository)
+                        .employeeHierarchyGraph(employeeHierarchyGraph)
+                        .build();
 
-    employeeService =
-        EmployeeServiceImpl.builder()
-            .employeeRepository(employeeRepository)
-            .eventPublisher(eventPublisher)
-            .employeeHierarchyGraph(employeeHierarchyGraph)
-            .build();
+        employeeService =
+                EmployeeServiceImpl.builder()
+                        .employeeRepository(employeeRepository)
+                        .eventPublisher(eventPublisher)
+                        .employeeHierarchyGraph(employeeHierarchyGraph)
+                        .build();
 
-    employeeUseCase =
-        EmployeeUseCaseImpl.builder()
-            .employeeService(employeeService)
-            .employeeHierarchyService(employeeHierarchyService)
-            .build();
-  }
+        employeeUseCase =
+                EmployeeUseCaseImpl.builder()
+                        .employeeService(employeeService)
+                        .employeeHierarchyService(employeeHierarchyService)
+                        .build();
+    }
 
-  @Test
-  void shouldUpdateFreeDaysLeft() {
-    LocalDate fromDate = LocalDate.of(2023, 04, 15);
-    LocalDate toDate = LocalDate.of(2023, 04, 25);
-    Integer daysTaken = (int) ChronoUnit.DAYS.between(fromDate, toDate);
-    UUID id = UUID.randomUUID();
-    Employee employee = Employee.builder().id(id).freeDaysLeft(25).build();
-    Employee updatedFreeDaysEmployee = Employee.builder().id(id).freeDaysLeft(15).build();
-    when(employeeRepository.saveEmployee(employee)).thenReturn(updatedFreeDaysEmployee);
-    employeeService.calculateFreeDaysLeft(daysTaken, employee);
+    @Test
+    void shouldUpdateFreeDaysLeft() {
+        LocalDate fromDate = LocalDate.of(2023, 04, 15);
+        LocalDate toDate = LocalDate.of(2023, 04, 25);
+        Integer daysTaken = (int) ChronoUnit.DAYS.between(fromDate, toDate);
+        UUID id = UUID.randomUUID();
+        Employee employee = Employee.builder().id(id).freeDaysLeft(25).build();
+        Employee updatedFreeDaysEmployee = Employee.builder().id(id).freeDaysLeft(15).build();
+        when(employeeRepository.saveEmployee(employee)).thenReturn(updatedFreeDaysEmployee);
+        employeeService.calculateFreeDaysLeft(daysTaken, employee);
 
-    assertEquals((int) daysTaken, 10);
-    verify(employeeRepository).saveEmployee(employee);
-  }
+        assertEquals((int) daysTaken, 10);
+        verify(employeeRepository).saveEmployee(employee);
+    }
 }

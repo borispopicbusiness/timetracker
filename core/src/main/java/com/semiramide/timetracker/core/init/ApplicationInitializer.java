@@ -7,13 +7,12 @@ import lombok.Builder;
 
 @Builder
 public class ApplicationInitializer {
+    private EmployeeHierarchyService employeeHierarchyService;
+    private SecurityProvider securityProvider;
 
-  private EmployeeHierarchyService employeeHierarchyService;
-  private SecurityProvider securityProvider;
-
-  @PostConstruct
-  public void initialize() {
-    employeeHierarchyService.loadGraph();
-    securityProvider.initialize();
-  }
+    @PostConstruct
+    public void initialize() {
+        employeeHierarchyService.loadGraph();
+        securityProvider.initialize();
+    }
 }

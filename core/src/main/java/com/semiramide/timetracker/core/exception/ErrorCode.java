@@ -1,7 +1,6 @@
 package com.semiramide.timetracker.core.exception;
 
 public class ErrorCode {
-
     public static final String EMAIL_ALREADY_EXISTS = "e001";
     public static final String CYCLE_DETECTED = "e002";
     public static final String USER_NOT_FOUND = "e003";
@@ -21,11 +20,9 @@ public class ErrorCode {
     public static final String WORKLOG_DATE_IN_FUTURE = "e017";
     public static final String MISSING_PARAMETER = "e018";
 
-
     public static final String GENERAL_EXCEPTION = "e999";
 
     private ErrorCode() {
 
     }
-
 }

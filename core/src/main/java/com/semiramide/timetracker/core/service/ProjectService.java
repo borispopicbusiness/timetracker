@@ -8,18 +8,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectService {
+    List<Project> findAllProjects();
 
-  List<Project> findAllProjects();
+    Project saveProject(Project project);
 
-  Project saveProject(Project project);
+    Optional<Project> findProjectById(UUID id);
 
-  Optional<Project> findProjectById(UUID id);
+    void deleteProjectById(UUID id) throws NoProjectFoundException;
 
-  void deleteProjectById(UUID id) throws NoProjectFoundException;
+    Project updateProject(Project project) throws NoProjectFoundException;
 
-  Project updateProject(Project project) throws NoProjectFoundException;
+    Optional<Project> findByName(String name);
 
-  Optional<Project> findByName(String name);
-
-  List<Project> findAllProjectsByIds(List<UUID> projectIds);
+    List<Project> findAllProjectsByIds(List<UUID> projectIds);
 }

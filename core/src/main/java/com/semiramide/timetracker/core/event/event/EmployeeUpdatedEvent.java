@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 @Builder
 public class EmployeeUpdatedEvent {
-
-  private Employee employee;
+    private Employee employee;
 }

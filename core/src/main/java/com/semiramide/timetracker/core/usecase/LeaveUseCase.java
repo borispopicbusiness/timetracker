@@ -11,28 +11,27 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LeaveUseCase {
+    Leave requestLeave(Leave leave) throws EmployeeNotFoundException, FreeDaysLeftException;
 
-  Leave requestLeave(Leave leave) throws EmployeeNotFoundException, FreeDaysLeftException;
+    void approveLeave(Leave leave) throws EmployeeNotFoundException, FreeDaysLeftException;
 
-  void approveLeave(Leave leave) throws EmployeeNotFoundException, FreeDaysLeftException;
+    void denyLeave(Leave leave);
 
-  void denyLeave(Leave leave);
+    List<Leave> findAll();
 
-  List<Leave> findAll();
+    void save(Leave leave);
 
-  void save(Leave leave);
+    Leave update(Leave leave);
 
-  Leave update(Leave leave);
+    void deleteById(UUID id);
 
-  void deleteById(UUID id);
+    List<LeaveStatus> listLeaveStatus();
 
-  List<LeaveStatus> listLeaveStatus();
+    List<LeaveType> listLeaveTypes();
 
-  List<LeaveType> listLeaveTypes();
+    List<Leave> findLeavesOfSubordinates(UUID id);
 
-  List<Leave> findLeavesOfSubordinates(UUID id);
+    List<Leave> findByEmployeeId(UUID id);
 
-  List<Leave> findByEmployeeId(UUID id);
-
-  List<Leave> findAllSubordinatesLeaves(Employee employee);
+    List<Leave> findAllSubordinatesLeaves(Employee employee);
 }

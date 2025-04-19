@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Builder
 @Slf4j
 public class WorklogUseCaseImpl implements WorklogUseCase {
-
     private WorklogService worklogService;
     private ProjectService projectService;
     private EmployeeService employeeService;
@@ -41,19 +40,19 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Transactional
     public Worklog addWorklog(Worklog worklog) throws EmployeeNotFoundException, NoProjectFoundException, InvalidArgumentException {
         Optional<Employee> employee = employeeService.findEmployeeById(worklog.getEmployeeId());
-        if (employee.isEmpty()) {
+        if ( employee.isEmpty() ) {
             log.warn("Employee with id: " + worklog.getEmployeeId() + " not found.");
             throw new EmployeeNotFoundException("There is no employee with id: " + worklog.getEmployeeId());
         }
         Optional<Project> project = projectService.findProjectById(worklog.getProjectId());
-        if (project.isEmpty()) {
+        if ( project.isEmpty() ) {
             log.warn("Project with id: " + worklog.getProjectId() + " not found.");
             throw new NoProjectFoundException("There is no project with id: " + worklog.getProjectId());
         }
-        if (worklogService.isWorklogsDateLocked(worklog)) {
+        if ( worklogService.isWorklogsDateLocked(worklog) ) {
             throw new WorklogDateLockedException("You cannot add worklogs for more than 3 days in the past!");
         }
-        if (worklogService.isWorklogsDateInTheFuture(worklog)) {
+        if ( worklogService.isWorklogsDateInTheFuture(worklog) ) {
             throw new WorklogDateInFutureException("You cannot add worklogs in the future (unless you are Jesus Christ)!");
         }
         return worklogService.addWorklog(worklog);
@@ -62,32 +61,32 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Override
     public Worklog addWorklog(UUID accessingEmployeeId, Worklog worklog) throws EmployeeNotFoundException, NoProjectFoundException, InvalidArgumentException {
         Optional<Employee> accessingEmployeeOptional = employeeService.findEmployeeById(accessingEmployeeId);
-        if (accessingEmployeeOptional.isEmpty()) {
+        if ( accessingEmployeeOptional.isEmpty() ) {
             log.warn("Employee not found for ID: " + accessingEmployeeId);
             throw new EmployeeNotFoundException("Employee not found for the given ID");
         }
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(worklog.getEmployeeId());
-        if (employeeOptional.isEmpty()) {
+        if ( employeeOptional.isEmpty() ) {
             log.warn("Employee with id: " + worklog.getEmployeeId() + " not found.");
             throw new EmployeeNotFoundException("There is no employee with id: " + worklog.getEmployeeId());
         }
         Optional<Project> project = projectService.findProjectById(worklog.getProjectId());
-        if (project.isEmpty()) {
+        if ( project.isEmpty() ) {
             log.warn("Project with id: " + worklog.getProjectId() + " not found.");
             throw new NoProjectFoundException("There is no project with id: " + worklog.getProjectId());
         }
-        if (worklogService.isWorklogsDateInTheFuture(worklog)) {
+        if ( worklogService.isWorklogsDateInTheFuture(worklog) ) {
             throw new WorklogDateInFutureException("You cannot add worklogs in the future (unless you are Jesus Christ)!");
         }
-        if (worklog.getEmployeeId().equals(accessingEmployeeId)) {
-            if (worklogService.isWorklogsDateLocked(worklog)) {
+        if ( worklog.getEmployeeId().equals(accessingEmployeeId) ) {
+            if ( worklogService.isWorklogsDateLocked(worklog) ) {
                 throw new WorklogDateLockedException("You cannot add worklogs for more than 3 days in the past!");
             }
             return worklogService.addWorklog(worklog);
         } else {
             Employee accessingEmployee = accessingEmployeeOptional.get();
             Employee employee = employeeOptional.get();
-            if (employeeHierarchyService.isSubordinate(accessingEmployee, employee)) {
+            if ( employeeHierarchyService.isSubordinate(accessingEmployee, employee) ) {
                 return worklogService.addWorklog(worklog);
             } else {
                 log.warn("User with ID " + accessingEmployeeId + " is not a superior to user with ID " + worklog.getEmployeeId());
@@ -100,21 +99,21 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Transactional
     public void updateWorklog(Worklog worklog) throws WorklogNotFoundException, EmployeeNotFoundException, NoProjectFoundException, InvalidArgumentException {
         Optional<Worklog> optionalWorklog = worklogService.findWorklogById(worklog.getId());
-        if (optionalWorklog.isEmpty()) {
+        if ( optionalWorklog.isEmpty() ) {
             log.warn("Wrong worklog id!");
             throw new WorklogNotFoundException("There is no worklog with id:" + worklog.getId());
         }
         Optional<Employee> employee = employeeService.findEmployeeById(worklog.getEmployeeId());
-        if (employee.isEmpty()) {
+        if ( employee.isEmpty() ) {
             log.warn("There is no employee with id: " + worklog.getEmployeeId());
             throw new EmployeeNotFoundException("There is no employee with id: " + worklog.getEmployeeId());
         }
         Optional<Project> project = projectService.findProjectById(worklog.getProjectId());
-        if (project.isEmpty()) {
+        if ( project.isEmpty() ) {
             log.warn("There is no project with id: " + worklog.getProjectId());
             throw new NoProjectFoundException("There is no project with id: " + worklog.getProjectId());
         }
-        if (worklogService.isWorklogsDateInTheFuture(worklog)) {
+        if ( worklogService.isWorklogsDateInTheFuture(worklog) ) {
             throw new WorklogDateInFutureException("You cannot add worklogs in the future (unless you are Jesus Christ)!");
         }
         worklogService.updateWorklog(worklog);
@@ -123,41 +122,41 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Override
     public void updateWorklog(UUID accessingEmployeeId, Worklog worklog) throws EmployeeNotFoundException, NoProjectFoundException, WorklogNotFoundException, InvalidArgumentException {
         Optional<Employee> accessingEmployeeOptional = employeeService.findEmployeeById(accessingEmployeeId);
-        if (accessingEmployeeOptional.isEmpty()) {
+        if ( accessingEmployeeOptional.isEmpty() ) {
             log.warn("Employee not found for ID: " + accessingEmployeeId);
             throw new EmployeeNotFoundException("Employee not found for the given ID");
         }
         Optional<Worklog> worklogOptional = worklogService.findWorklogById(worklog.getId());
-        if (worklogOptional.isEmpty()) {
+        if ( worklogOptional.isEmpty() ) {
             log.warn("Wrong worklog id!");
             throw new WorklogNotFoundException("There is no worklog with id:" + worklog.getId());
         }
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(worklog.getEmployeeId());
-        if (employeeOptional.isEmpty()) {
+        if ( employeeOptional.isEmpty() ) {
             log.warn("There is no employee with id: " + worklog.getEmployeeId());
             throw new EmployeeNotFoundException("There is no employee with id: " + worklog.getEmployeeId());
         }
         Optional<Project> project = projectService.findProjectById(worklog.getProjectId());
-        if (project.isEmpty()) {
+        if ( project.isEmpty() ) {
             log.warn("There is no project with id: " + worklog.getProjectId());
             throw new NoProjectFoundException("There is no project with id: " + worklog.getProjectId());
         }
-        if (worklogService.isWorklogsDateInTheFuture(worklog)) {
+        if ( worklogService.isWorklogsDateInTheFuture(worklog) ) {
             throw new WorklogDateInFutureException("You cannot add worklogs in the future (unless you are Jesus Christ)!");
         }
-        if (worklog.getEmployeeId().equals(accessingEmployeeId)) {
+        if ( worklog.getEmployeeId().equals(accessingEmployeeId) ) {
             Worklog existingWorklog = worklogOptional.get();
-            if (worklogService.isWorklogsDateLocked(existingWorklog)) {
+            if ( worklogService.isWorklogsDateLocked(existingWorklog) ) {
                 throw new WorklogDateLockedException("You cannot edit worklogs that are more than 3 days in the past!");
             }
-            if (worklogService.isWorklogsDateLocked(worklog)) {
+            if ( worklogService.isWorklogsDateLocked(worklog) ) {
                 throw new WorklogDateLockedException("You cannot put dates of worklogs that are more than 3 days in the past!");
             }
             worklogService.updateWorklog(worklog);
         } else {
             Employee accessingEmployee = accessingEmployeeOptional.get();
             Employee employee = employeeOptional.get();
-            if (employeeHierarchyService.isSubordinate(accessingEmployee, employee)) {
+            if ( employeeHierarchyService.isSubordinate(accessingEmployee, employee) ) {
                 worklogService.updateWorklog(worklog);
             } else {
                 log.warn("User with ID " + accessingEmployeeId + " is not a superior to user with ID " + worklog.getEmployeeId());
@@ -171,7 +170,7 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Transactional
     public List<Worklog> listEmployeeWorklogs(UUID employeeId) throws EmployeeNotFoundException {
         Optional<Employee> employee = employeeService.findEmployeeById(employeeId);
-        if (employee.isEmpty()) {
+        if ( employee.isEmpty() ) {
             log.warn("There is no employee with id: " + employeeId);
             throw new EmployeeNotFoundException("There is no employee with id: " + employeeId);
         }
@@ -182,7 +181,7 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Transactional
     public List<Worklog> listEmployeeWorklogsByCreationDate(UUID employeeId, LocalDate creationDate, int page) throws EmployeeNotFoundException {
         Optional<Employee> employee = employeeService.findEmployeeById(employeeId);
-        if (employee.isEmpty()) {
+        if ( employee.isEmpty() ) {
             log.warn("There is no employee with id: " + employeeId);
             throw new EmployeeNotFoundException("There is no employee with id: " + employeeId);
         }
@@ -198,7 +197,7 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Override
     public List<Worklog> listWorklogByAnyCriteria(UUID accessingEmployeeId, Map<String, String[]> criteria) {
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(accessingEmployeeId);
-        if (employeeOptional.isEmpty()) {
+        if ( employeeOptional.isEmpty() ) {
             log.warn("Cannot proceed with listWorklogByAnyCriteria. Searching employee not found for ID: " + accessingEmployeeId + "!");
             throw new EmployeeNotFoundException("Employee not found for the given ID!");
         }
@@ -219,7 +218,7 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Override
     public List<Worklog> listWorklogByAllCriteria(UUID accessingEmployeeId, Map<String, String[]> criteria) {
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(accessingEmployeeId);
-        if (employeeOptional.isEmpty()) {
+        if ( employeeOptional.isEmpty() ) {
             log.warn("Cannot proceed with listWorklogByAnyCriteria. Searching employee not found for ID: " + accessingEmployeeId + "!");
             throw new EmployeeNotFoundException("Employee not found for the given ID!");
         }
@@ -242,16 +241,16 @@ public class WorklogUseCaseImpl implements WorklogUseCase {
     @Transactional
     public List<Worklog> findSubordinateWorklogs(UUID loggedUser, UUID subordinateId) throws EmployeeNotFoundException, NotReachableNodeException {
         Optional<Employee> parent = employeeService.findEmployeeById(loggedUser);
-        if (parent.isEmpty()) {
+        if ( parent.isEmpty() ) {
             log.warn("Wrong id of logged user");
             throw new EmployeeNotFoundException("There is no user with id: " + loggedUser);
         }
         Optional<Employee> child = employeeService.findEmployeeById(subordinateId);
-        if (child.isEmpty()) {
+        if ( child.isEmpty() ) {
             log.warn("Wrong id of subordinate");
             throw new EmployeeNotFoundException("There is no user with id: " + subordinateId);
         }
-        if (!employeeHierarchyService.isSubordinate(parent.get(), child.get())) {
+        if ( !employeeHierarchyService.isSubordinate(parent.get(), child.get()) ) {
             log.warn("Employee with id: " + subordinateId + " is not subordinate of the Employee with id: " + loggedUser);
             throw new NotReachableNodeException("Employee with id: " + subordinateId + " is not subordinate of the Employee with id: " + loggedUser);
         }

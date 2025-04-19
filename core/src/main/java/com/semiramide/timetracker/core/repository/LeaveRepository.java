@@ -9,24 +9,23 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface LeaveRepository {
+    List<Leave> findAllLeaves();
 
-  List<Leave> findAllLeaves();
+    Leave saveLeave(Leave leave);
 
-  Leave saveLeave(Leave leave);
+    Optional<Leave> findLeaveById(UUID id);
 
-  Optional<Leave> findLeaveById(UUID id);
+    void deleteLeave(Leave leave);
 
-  void deleteLeave(Leave leave);
+    void deleteAllLeaves();
 
-  void deleteAllLeaves();
+    void deleteByEmployeeId(UUID employeeId);
 
-  void deleteByEmployeeId(UUID employeeId);
+    List<Leave> findByEmployeeId(UUID id);
 
-  List<Leave> findByEmployeeId(UUID id);
+    List<Leave> findAllSubordinatesLeaves(List<Employee> subordinates);
 
-  List<Leave> findAllSubordinatesLeaves(List<Employee> subordinates);
+    List<Leave> findByStartTimeBefore(LocalDate endTime);
 
-  List<Leave> findByStartTimeBefore(LocalDate endTime);
-
-  List<Leave> findByEndTimeAfter(LocalDate startTime);
+    List<Leave> findByEndTimeAfter(LocalDate startTime);
 }

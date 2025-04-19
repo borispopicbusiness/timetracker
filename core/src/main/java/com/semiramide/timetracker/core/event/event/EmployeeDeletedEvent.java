@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 @Builder
 public class EmployeeDeletedEvent {
-
-  private Employee employee;
+    private Employee employee;
 }

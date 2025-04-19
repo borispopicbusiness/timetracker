@@ -11,6 +11,7 @@ import com.semiramide.timetracker.core.service.ProjectService;
 import com.semiramide.timetracker.core.service.impl.ProjectServiceImpl;
 import com.semiramide.timetracker.core.usecase.ProjectUseCase;
 import com.semiramide.timetracker.core.usecase.impl.ProjectUseCaseImpl;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,45 +20,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EditProjectTest {
-  private ProjectUseCase projectUseCase;
-  private ProjectRepository projectRepository;
-  private ProjectService projectService;
+    private ProjectUseCase projectUseCase;
+    private ProjectRepository projectRepository;
+    private ProjectService projectService;
 
-  private Project oldProject;
+    private Project oldProject;
 
-  @BeforeEach
-  void setUp() {
-    projectRepository = mock(ProjectRepository.class);
-    projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
-    projectUseCase = ProjectUseCaseImpl.builder().projectService(projectService).build();
-    oldProject =
-        Project.builder()
-            .id(UUID.randomUUID())
-            .name("Project test")
-            .description("this is description test.")
-            .build();
-  }
+    @BeforeEach
+    void setUp() {
+        projectRepository = mock(ProjectRepository.class);
+        projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
+        projectUseCase = ProjectUseCaseImpl.builder().projectService(projectService).build();
+        oldProject =
+                Project.builder()
+                        .id(UUID.randomUUID())
+                        .name("Project test")
+                        .description("this is description test.")
+                        .build();
+    }
 
-  @Test
-  @DisplayName("Should update project.")
-  // should this be changed
-  void shouldUpdateProject() throws NoProjectFoundException {
-    Project updatedProject =
-        Project.builder()
-            .id(oldProject.getId())
-            .name("updated name")
-            .description("This is updated description.")
-            .build();
+    @Test
+    @DisplayName("Should update project.")
+        // should this be changed
+    void shouldUpdateProject() throws NoProjectFoundException {
+        Project updatedProject =
+                Project.builder()
+                        .id(oldProject.getId())
+                        .name("updated name")
+                        .description("This is updated description.")
+                        .build();
 
-    when(projectRepository.findProjectById(updatedProject.getId()))
-        .thenReturn(Optional.ofNullable(oldProject));
-    when(projectRepository.updateProject(updatedProject)).thenReturn(updatedProject);
-    Project project = projectUseCase.editProject(updatedProject);
+        when(projectRepository.findProjectById(updatedProject.getId()))
+                .thenReturn(Optional.ofNullable(oldProject));
+        when(projectRepository.updateProject(updatedProject)).thenReturn(updatedProject);
+        Project project = projectUseCase.editProject(updatedProject);
 
-    verify(projectRepository).updateProject(updatedProject);
-    assertAll(
-        () -> assertEquals(updatedProject.getId(), project.getId()),
-        () -> assertEquals(updatedProject.getName(), project.getName()),
-        () -> assertEquals(updatedProject.getDescription(), project.getDescription()));
-  }
+        verify(projectRepository).updateProject(updatedProject);
+        assertAll(
+                () -> assertEquals(updatedProject.getId(), project.getId()),
+                () -> assertEquals(updatedProject.getName(), project.getName()),
+                () -> assertEquals(updatedProject.getDescription(), project.getDescription()));
+    }
 }

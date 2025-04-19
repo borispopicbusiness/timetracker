@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TokenRequestDtoAPI {
 
-  private String username;
-  private String password;
+    private String username;
+    private String password;
 }

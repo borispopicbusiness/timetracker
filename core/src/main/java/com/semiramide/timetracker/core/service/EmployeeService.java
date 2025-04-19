@@ -8,26 +8,25 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EmployeeService {
+    List<Employee> findAllEmployees();
 
-  List<Employee> findAllEmployees();
+    List<Employee> findAllEmployeesByIds(List<UUID> employeeIds);
 
-  List<Employee> findAllEmployeesByIds(List<UUID> employeeIds);
+    Optional<Employee> findEmployeeByEmail(String email);
 
-  Optional<Employee> findEmployeeByEmail(String email);
+    Employee addEmployee(Employee employee);
 
-  Employee addEmployee(Employee employee);
+    Employee updateEmployee(Employee employee);
 
-  Employee updateEmployee(Employee employee);
+    void changePassword(String principalId, String newPassword);
 
-  void changePassword(String principalId, String newPassword);
+    Optional<Employee> findEmployeeById(UUID id);
 
-  Optional<Employee> findEmployeeById(UUID id);
+    void deleteEmployeeById(UUID id) throws EmployeeNotFoundException;
 
-  void deleteEmployeeById(UUID id) throws EmployeeNotFoundException;
+    void deleteAllEmployees();
 
-  void deleteAllEmployees();
+    Optional<Employee> findEmployeeByPrincipalId(String name);
 
-  Optional<Employee> findEmployeeByPrincipalId(String name);
-
-  Employee calculateFreeDaysLeft(Integer daysTaken, Employee employee);
+    Employee calculateFreeDaysLeft(Integer daysTaken, Employee employee);
 }

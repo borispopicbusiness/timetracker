@@ -4,13 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class TimetrackerException extends RuntimeException {
+    private final String code;
+    private final String message;
 
-  private final String code;
-  private final String message;
-
-  public TimetrackerException(String c, String m) {
-    super(m);
-    this.code = c;
-    this.message = m;
-  }
+    public TimetrackerException(String c, String m) {
+        super(m);
+        this.code = c;
+        this.message = m;
+    }
 }

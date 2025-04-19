@@ -9,19 +9,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectUseCase {
+    List<Project> getAllProjects();
 
-  List<Project> getAllProjects();
+    Project createProject(Project project)
+            throws ProjectNameAlreadyTakenException, NoProjectFoundException;
 
-  Project createProject(Project project)
-      throws ProjectNameAlreadyTakenException, NoProjectFoundException;
+    Optional<Project> findProjectById(UUID id);
 
-  Optional<Project> findProjectById(UUID id);
+    void deleteProjectById(UUID id) throws NoProjectFoundException;
 
-  void deleteProjectById(UUID id) throws NoProjectFoundException;
+    Project editProject(Project project) throws NoProjectFoundException;
 
-  Project editProject(Project project) throws NoProjectFoundException;
+    Optional<Project> findByName(String name);
 
-  Optional<Project> findByName(String name);
-
-  List<Project> findAllProjectsByIds(List<UUID> projectIds);
+    List<Project> findAllProjectsByIds(List<UUID> projectIds);
 }

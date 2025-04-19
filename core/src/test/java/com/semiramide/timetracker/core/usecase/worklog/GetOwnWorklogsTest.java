@@ -26,58 +26,56 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class GetOwnWorklogsTest {
+    private WorklogUseCase worklogUseCase;
+    private WorklogService worklogService;
 
-  private WorklogUseCase worklogUseCase;
-  private WorklogService worklogService;
+    private WorklogRepository worklogRepository;
+    private EmployeeRepository employeeRepository;
+    private ProjectRepository projectRepository;
 
-  private WorklogRepository worklogRepository;
-  private EmployeeRepository employeeRepository;
-  private ProjectRepository projectRepository;
+    private EmployeeService employeeService;
+    private ProjectService projectService;
 
-  private EmployeeService employeeService;
-  private ProjectService projectService;
+    @BeforeEach
+    void setUp() {
+        worklogRepository = mock(WorklogRepository.class);
+        projectRepository = mock(ProjectRepository.class);
+        employeeRepository = mock(EmployeeRepository.class);
 
-  @BeforeEach
-  void setUp() {
-    worklogRepository = mock(WorklogRepository.class);
-    projectRepository = mock(ProjectRepository.class);
-    employeeRepository = mock(EmployeeRepository.class);
+        worklogService = WorklogServiceImpl.builder().worklogRepository(worklogRepository).build();
 
-    worklogService = WorklogServiceImpl.builder().worklogRepository(worklogRepository).build();
+        projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
 
-    projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
+        employeeService = EmployeeServiceImpl.builder().employeeRepository(employeeRepository).build();
+        worklogUseCase =
+                WorklogUseCaseImpl.builder()
+                        .worklogService(worklogService)
+                        .projectService(projectService)
+                        .employeeService(employeeService)
+                        .build();
+    }
 
-    employeeService = EmployeeServiceImpl.builder().employeeRepository(employeeRepository).build();
-    worklogUseCase =
-        WorklogUseCaseImpl.builder()
-            .worklogService(worklogService)
-            .projectService(projectService)
-            .employeeService(employeeService)
-            .build();
-  }
+    @Test
+    @DisplayName("Should return worklogs of logged employee")
+    void shouldReturnOwnWorklogs() throws EmployeeNotFoundException {
+        UUID loggedUser = UUID.randomUUID();
+        List<Worklog> ownWorklogs = List.of(createWorklog("testOne", LocalDateTime.now(), loggedUser),
+                createWorklog("testTwo", LocalDateTime.now(), loggedUser));
+        when(worklogUseCase.getOwnWorklogs(loggedUser)).thenReturn(ownWorklogs);
 
-  @Test
-  @DisplayName("Should return worklogs of logged employee")
-  void shouldReturnOwnWorklogs() throws EmployeeNotFoundException {
-    UUID loggedUser = UUID.randomUUID();
-    List<Worklog> ownWorklogs = List.of(createWorklog("testOne", LocalDateTime.now(), loggedUser),
-            createWorklog("testTwo", LocalDateTime.now(), loggedUser));
-    when(worklogUseCase.getOwnWorklogs(loggedUser)).thenReturn(ownWorklogs);
+        worklogUseCase.getOwnWorklogs(loggedUser);
 
-    worklogUseCase.getOwnWorklogs(loggedUser);
+        verify(worklogRepository, Mockito.times(1)).findWorklogsByEmployeeId(loggedUser);
+    }
 
-    verify(worklogRepository, Mockito.times(1)).findWorklogsByEmployeeId(loggedUser);
-  }
-
-  private Worklog createWorklog(String taskName, LocalDateTime startTime, UUID employeeId) {
-    return Worklog.builder()
-            .id(UUID.randomUUID())
-            .employeeId(employeeId)
-            .taskName(taskName)
-            .startTime(startTime)
-            .endTime(startTime.plusHours(1))
-            .totalTime(1.0)
-            .build();
-  }
-
+    private Worklog createWorklog(String taskName, LocalDateTime startTime, UUID employeeId) {
+        return Worklog.builder()
+                .id(UUID.randomUUID())
+                .employeeId(employeeId)
+                .taskName(taskName)
+                .startTime(startTime)
+                .endTime(startTime.plusHours(1))
+                .totalTime(1.0)
+                .build();
+    }
 }

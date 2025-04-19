@@ -14,38 +14,37 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface WorklogService {
+    List<WorklogExportDTO> prepareWorklogsForExport(
+            List<Worklog> worklogs, List<Employee> employees, List<Project> projects);
 
-  List<WorklogExportDTO> prepareWorklogsForExport(
-      List<Worklog> worklogs, List<Employee> employees, List<Project> projects);
+    List<Worklog> findAllWorklogs();
 
-  List<Worklog> findAllWorklogs();
+    Worklog addWorklog(Worklog worklog) throws InvalidArgumentException;
 
-  Worklog addWorklog(Worklog worklog) throws InvalidArgumentException;
+    void updateWorklog(Worklog worklog) throws InvalidArgumentException;
 
-  void updateWorklog(Worklog worklog) throws InvalidArgumentException;
+    Optional<Worklog> findWorklogById(UUID id);
 
-  Optional<Worklog> findWorklogById(UUID id);
+    List<Worklog> findWorklogByEmployeeId(UUID employeeId);
 
-  List<Worklog> findWorklogByEmployeeId(UUID employeeId);
+    List<Worklog> findWorklogByEmployeeIdAndCreationDate(
+            UUID employeeId, LocalDate creationDate, int page);
 
-  List<Worklog> findWorklogByEmployeeIdAndCreationDate(
-      UUID employeeId, LocalDate creationDate, int page);
+    List<Worklog> listWorklogByAnyCriteria(Map<String, String[]> criteria);
 
-  List<Worklog> listWorklogByAnyCriteria(Map<String, String[]> criteria);
+    void deleteWorklogById(UUID id);
 
-  void deleteWorklogById(UUID id);
+    void deleteByEmployeeId(UUID employeeId);
 
-  void deleteByEmployeeId(UUID employeeId);
+    void deleteAllWorklogs();
 
-  void deleteAllWorklogs();
+    List<WorklogType> listWorklogTypes();
 
-  List<WorklogType> listWorklogTypes();
+    int findNumberOfWorklogs(UUID employeeId, LocalDate creationDate);
 
-  int findNumberOfWorklogs(UUID employeeId, LocalDate creationDate);
+    List<Worklog> listWorklogByAllCriteria(Map<String, String[]> criteria);
 
-  List<Worklog> listWorklogByAllCriteria(Map<String, String[]> criteria);
+    boolean isWorklogsDateLocked(Worklog worklog);
 
-  boolean isWorklogsDateLocked(Worklog worklog);
-
-  boolean isWorklogsDateInTheFuture(Worklog worklog);
+    boolean isWorklogsDateInTheFuture(Worklog worklog);
 }

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface WorklogUseCase {
-
     List<WorklogExportDTO> prepareWorklogsForExport(List<Worklog> worklogs, List<Employee> employees, List<Project> projects);
 
     Worklog addWorklog(Worklog worklog) throws EmployeeNotFoundException, NoProjectFoundException, InvalidArgumentException;
@@ -45,5 +44,4 @@ public interface WorklogUseCase {
     List<WorklogType> listWorklogTypes();
 
     int findNumberOfWorklogs(UUID employeeId, LocalDate creationDate);
-
 }
