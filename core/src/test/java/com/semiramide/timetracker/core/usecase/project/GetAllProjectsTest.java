@@ -39,7 +39,7 @@ class GetAllProjectsTest {
 
   @Test
   @DisplayName("Should return all projects.")
-  void should_ReturnAllProjects() {
+  void shouldReturnAllProjects() {
 
     when(projectRepository.findAllProjects()).thenReturn(projects);
 

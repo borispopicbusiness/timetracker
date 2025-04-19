@@ -44,7 +44,7 @@ class FindProjectByNameTest {
 
   @Test
   @DisplayName("Should find project by given name")
-  void should_FindProjectByGivenName() throws NoProjectFoundException {
+  void shouldFindProjectByGivenName() throws NoProjectFoundException {
     when(projectRepository.findByName(name)).thenReturn(Optional.of(project));
 
     assertEquals(Optional.of(project), projectUseCase.findByName(name));

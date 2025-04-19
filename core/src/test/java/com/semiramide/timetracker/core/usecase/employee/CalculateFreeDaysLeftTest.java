@@ -27,13 +27,12 @@ public class CalculateFreeDaysLeftTest {
   private EmployeeService employeeService;
   private EmployeeHierarchyService employeeHierarchyService;
   private EmployeeHierarchyGraph employeeHierarchyGraph;
-
   private AppEventPublisher eventPublisher;
   private EmployeeRepository employeeRepository;
   private EmployeeHierarchyRepository employeeHierarchyRepository;
 
   @BeforeEach
-  void setup() {
+  void setUp() {
     eventPublisher = mock(AppEventPublisher.class);
     employeeRepository = mock(EmployeeRepository.class);
     employeeHierarchyRepository = mock(EmployeeHierarchyRepository.class);
@@ -61,8 +60,7 @@ public class CalculateFreeDaysLeftTest {
   }
 
   @Test
-  void should_Update_Free_Days_Left() {
-    // given
+  void shouldUpdateFreeDaysLeft() {
     LocalDate fromDate = LocalDate.of(2023, 04, 15);
     LocalDate toDate = LocalDate.of(2023, 04, 25);
     Integer daysTaken = (int) ChronoUnit.DAYS.between(fromDate, toDate);

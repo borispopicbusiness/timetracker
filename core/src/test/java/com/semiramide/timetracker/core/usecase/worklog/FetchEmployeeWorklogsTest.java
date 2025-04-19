@@ -78,7 +78,7 @@ class FetchEmployeeWorklogsTest {
 
   @Test
   @DisplayName("Should find all worklogs by employee id")
-  void should_FetchEmployeeWorklogs() throws EmployeeNotFoundException {
+  void shouldFetchEmployeeWorklogs() throws EmployeeNotFoundException {
     Employee employee = Employee.builder().id(UUID.randomUUID()).build();
 
     when(employeeRepository.findEmployeeById(employee.getId()))
@@ -91,7 +91,7 @@ class FetchEmployeeWorklogsTest {
 
   @Test
   @DisplayName("Should not find worklogs when employee id is not valid")
-  void should_ThrowException_When_EmployeeIdIsNotValid() {
+  void shouldThrowExceptionWhenEmployeeIdIsNotValid() {
     Employee employee = Employee.builder().id(UUID.randomUUID()).build();
 
     when(employeeRepository.findEmployeeById(employee.getId())).thenReturn(Optional.empty());

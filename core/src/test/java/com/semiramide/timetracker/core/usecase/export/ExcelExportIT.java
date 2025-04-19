@@ -23,7 +23,7 @@ public class ExcelExportIT {
   private File tempFile;
 
   @BeforeEach
-  public void generateExcelFile() throws IOException, IllegalAccessException {
+  public void prepareExcelFile() throws IOException, IllegalAccessException {
 
     File currDir = new File(".");
     String path = currDir.getAbsolutePath();
@@ -31,7 +31,7 @@ public class ExcelExportIT {
 
     WorklogExportDTO row1 =
         WorklogExportDTO.builder()
-            .employee("Pera")
+            .employee("John Doe")
             .project("Project1")
             .type("work type 1")
             .task("task 1")
@@ -42,7 +42,7 @@ public class ExcelExportIT {
 
     WorklogExportDTO row2 =
         WorklogExportDTO.builder()
-            .employee("Mika")
+            .employee("Jane Doe")
             .project("Project1")
             .type("work type 2")
             .task("task 2")
@@ -59,17 +59,17 @@ public class ExcelExportIT {
   }
 
   @Test
-  public void parsedExcelFileShouldBeReadable() throws IOException {
+  public void shouldParseAndReadExcelFile() throws IOException {
     Map<Integer, List<String>> data = ExcelExportUtil.readExcel(tempFile);
 
     Assertions.assertEquals("employee", data.get(0).get(0));
-    Assertions.assertEquals("Pera", data.get(1).get(0));
+    Assertions.assertEquals("John Doe", data.get(1).get(0));
     Assertions.assertEquals("8.50", data.get(2).get(5));
     Assertions.assertEquals(LocalDate.now().toString(), data.get(2).get(6));
   }
 
   @AfterEach
-  public void cleanup() throws IOException {
+  public void cleanUp() throws IOException {
     Files.deleteIfExists(Path.of(fileLocation));
   }
 }

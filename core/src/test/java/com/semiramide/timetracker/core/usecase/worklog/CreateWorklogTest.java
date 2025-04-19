@@ -30,22 +30,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CreateWorklogTest {
-
   private WorklogUseCase worklogUseCase;
-
-  private WorklogService worklogService;
-
-  private WorklogRepository worklogRepository;
-
   private Worklog worklog;
 
-  private EmployeeRepository employeeRepository;
+  private WorklogService worklogService;
+  private EmployeeService employeeService;
+  private ProjectService projectService;
 
+  private WorklogRepository worklogRepository;
+  private EmployeeRepository employeeRepository;
   private ProjectRepository projectRepository;
 
-  private EmployeeService employeeService;
-
-  private ProjectService projectService;
 
   @BeforeEach
   void setUp() {
@@ -54,10 +49,9 @@ class CreateWorklogTest {
     employeeRepository = mock(EmployeeRepository.class);
 
     worklogService = WorklogServiceImpl.builder().worklogRepository(worklogRepository).build();
-
     projectService = ProjectServiceImpl.builder().projectRepository(projectRepository).build();
-
     employeeService = EmployeeServiceImpl.builder().employeeRepository(employeeRepository).build();
+
     worklogUseCase =
         WorklogUseCaseImpl.builder()
             .worklogService(worklogService)
@@ -68,9 +62,8 @@ class CreateWorklogTest {
 
   @Test
   @DisplayName("Should create worklog.")
-  void should_CreateWorklog()
+  void shouldCreateWorklog()
       throws NoProjectFoundException, EmployeeNotFoundException, InvalidArgumentException {
-    // conditions go below
     worklog =
         Worklog.builder()
             .id(UUID.randomUUID())
@@ -89,26 +82,14 @@ class CreateWorklogTest {
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
         .thenReturn(Optional.ofNullable(Employee.builder().build()));
 
-    // assertTrue(check(worklog.getStartTime(),worklog.getEndTime(),worklog.getTotalTime()));
-
     worklogUseCase.addWorklog(worklog);
 
     verify(worklogRepository).saveWorklog(worklog);
   }
 
-  //    boolean check(LocalDateTime start, LocalDateTime end, Long total){
-  //        if(start == null || end == null){
-  //            if(total != null){
-  //                return true;
-  //            }
-  //            return false;
-  //        }
-  //        worklog.setTotalTime(Integer.toUnsignedLong(end.getNano()-start.getNano()));
-  //        return true;
-  //    }
   @Test
   @DisplayName("Should not create worklog when start time, end time and total time are null")
-  void should_NotCreateWorklog_When_dataIsNotValid() {
+  void shouldNotCreateWorklogWhenDataIsNotValid() {
     worklog =
         Worklog.builder()
             .id(UUID.randomUUID())
@@ -121,6 +102,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId()))
         .thenReturn(Optional.ofNullable(Project.builder().build()));
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
@@ -134,8 +116,11 @@ class CreateWorklogTest {
   @Test
   @DisplayName(
       "Should create worklog when start time and end time are null, and total time is not null")
-  void should_CreateWorklog_When_OnlyTotalTimeIsNotNull()
-      throws NoProjectFoundException, EmployeeNotFoundException, InvalidArgumentException {
+  void shouldCreateWorklogWhenOnlyTotalTimeIsNotNull()
+      throws NoProjectFoundException,
+          EmployeeNotFoundException,
+          InvalidArgumentException {
+
     worklog =
         Worklog.builder()
             .id(UUID.randomUUID())
@@ -148,6 +133,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId()))
         .thenReturn(Optional.ofNullable(Project.builder().build()));
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
@@ -161,7 +147,7 @@ class CreateWorklogTest {
   @Test
   @DisplayName(
       "Should create worklog when start time and end time are not null, and total time is  null")
-  void should_CreateWorklog_When_OnlyTotalTimeIsNull()
+  void shouldCreateWorklogWhenOnlyTotalTimeIsNull()
       throws NoProjectFoundException, EmployeeNotFoundException, InvalidArgumentException {
     worklog =
         Worklog.builder()
@@ -187,7 +173,7 @@ class CreateWorklogTest {
 
   @Test
   @DisplayName("Should create worklog when only start time is null")
-  void should_CreateWorklog_When_OnlyStartTimeIsNull()
+  void shouldCreateWorklogWhenOnlyStartTimeIsNull()
       throws NoProjectFoundException, EmployeeNotFoundException, InvalidArgumentException {
     worklog =
         Worklog.builder()
@@ -201,6 +187,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId()))
         .thenReturn(Optional.ofNullable(Project.builder().build()));
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
@@ -213,7 +200,7 @@ class CreateWorklogTest {
 
   @Test
   @DisplayName("Should create worklog when only end time is null")
-  void should_CreateWorklog_When_OnlyEndTimeIsNull()
+  void shouldCreateWorklogWhenOnlyEndTimeIsNull()
       throws NoProjectFoundException, EmployeeNotFoundException, InvalidArgumentException {
     worklog =
         Worklog.builder()
@@ -227,6 +214,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId()))
         .thenReturn(Optional.ofNullable(Project.builder().build()));
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
@@ -239,7 +227,7 @@ class CreateWorklogTest {
 
   @Test
   @DisplayName("Should not worklog when project id is invalid")
-  void should_ThrowException_When_ProjectIdIsInvalid() {
+  void shouldThrowExceptionWhenProjectIdIsInvalid() {
     worklog =
         Worklog.builder()
             .id(UUID.randomUUID())
@@ -252,6 +240,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId())).thenReturn(Optional.empty());
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId()))
         .thenReturn(Optional.ofNullable(Employee.builder().build()));
@@ -263,7 +252,7 @@ class CreateWorklogTest {
 
   @Test
   @DisplayName("Should not worklog when employee id is invalid")
-  void should_ThrowException_When_EmployeeIdIsInvalid() {
+  void shouldThrowExceptionWhenEmployeeIdIsInvalid() {
     worklog =
         Worklog.builder()
             .id(UUID.randomUUID())
@@ -276,6 +265,7 @@ class CreateWorklogTest {
             .creationDate(LocalDate.now())
             .projectId(UUID.randomUUID())
             .build();
+
     when(projectRepository.findProjectById(worklog.getProjectId()))
         .thenReturn(Optional.ofNullable(Project.builder().build()));
     when(employeeRepository.findEmployeeById(worklog.getEmployeeId())).thenReturn(Optional.empty());

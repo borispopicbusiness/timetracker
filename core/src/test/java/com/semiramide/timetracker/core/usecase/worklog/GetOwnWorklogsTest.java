@@ -28,17 +28,13 @@ import org.mockito.Mockito;
 class GetOwnWorklogsTest {
 
   private WorklogUseCase worklogUseCase;
-
   private WorklogService worklogService;
 
   private WorklogRepository worklogRepository;
-
   private EmployeeRepository employeeRepository;
-
   private ProjectRepository projectRepository;
 
   private EmployeeService employeeService;
-
   private ProjectService projectService;
 
   @BeforeEach
