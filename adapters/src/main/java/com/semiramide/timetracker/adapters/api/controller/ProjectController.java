@@ -7,9 +7,11 @@ import com.semiramide.timetracker.core.exception.NoProjectFoundException;
 import com.semiramide.timetracker.core.exception.ProjectNameAlreadyTakenException;
 import com.semiramide.timetracker.core.usecase.EmployeeUseCase;
 import com.semiramide.timetracker.core.usecase.ProjectUseCase;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,42 +20,42 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProjectController {
 
-  private final ProjectUseCase projectUseCase;
-  private final EmployeeUseCase employeeUseCase;
+    private final ProjectUseCase projectUseCase;
+    private final EmployeeUseCase employeeUseCase;
 
-  @GetMapping()
-  public List<ProjectDtoAPI> findAll() {
-    return ProjectMapperAPI.INSTANCE.projectListToProjectDtoAPIList(
-        projectUseCase.getAllProjects());
-  }
-
-  @GetMapping("/{id}")
-  public ProjectDtoAPI getById(@PathVariable(name = "id") UUID id) throws NoProjectFoundException {
-    Optional<Project> project = projectUseCase.findProjectById(id);
-    if (project.isPresent()) {
-      return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(project.get());
+    @GetMapping()
+    public List<ProjectDtoAPI> findAll() {
+        return ProjectMapperAPI.INSTANCE.projectListToProjectDtoAPIList(
+                projectUseCase.getAllProjects());
     }
-    return null;
-  }
 
-  @PostMapping
-  public ProjectDtoAPI createProject(@RequestBody ProjectDtoAPI project)
-      throws ProjectNameAlreadyTakenException, NoProjectFoundException {
-    Project savedProject =
-        projectUseCase.createProject(ProjectMapperAPI.INSTANCE.projectDtoAPIToProject(project));
-    return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(savedProject);
-  }
+    @GetMapping("/{id}")
+    public ProjectDtoAPI getById(@PathVariable(name = "id") UUID id) throws NoProjectFoundException {
+        Optional<Project> project = projectUseCase.findProjectById(id);
+        if ( project.isPresent() ) {
+            return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(project.get());
+        }
+        return null;
+    }
 
-  @PutMapping
-  public ProjectDtoAPI editProject(@RequestBody ProjectDtoAPI project)
-      throws NoProjectFoundException {
-    Project editedProject =
-        projectUseCase.editProject(ProjectMapperAPI.INSTANCE.projectDtoAPIToProject(project));
-    return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(editedProject);
-  }
+    @PostMapping
+    public ProjectDtoAPI createProject(@RequestBody ProjectDtoAPI project)
+            throws ProjectNameAlreadyTakenException, NoProjectFoundException {
+        Project savedProject =
+                projectUseCase.createProject(ProjectMapperAPI.INSTANCE.projectDtoAPIToProject(project));
+        return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(savedProject);
+    }
 
-  @DeleteMapping("/{id}")
-  public void deleteProject(@PathVariable(name = "id") UUID id) throws NoProjectFoundException {
-    projectUseCase.deleteProjectById(id);
-  }
+    @PutMapping
+    public ProjectDtoAPI editProject(@RequestBody ProjectDtoAPI project)
+            throws NoProjectFoundException {
+        Project editedProject =
+                projectUseCase.editProject(ProjectMapperAPI.INSTANCE.projectDtoAPIToProject(project));
+        return ProjectMapperAPI.INSTANCE.projectToProjectDtoAPI(editedProject);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable(name = "id") UUID id) throws NoProjectFoundException {
+        projectUseCase.deleteProjectById(id);
+    }
 }

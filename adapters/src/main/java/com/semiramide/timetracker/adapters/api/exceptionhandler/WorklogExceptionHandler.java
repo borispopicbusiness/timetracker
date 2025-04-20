@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class WorklogExceptionHandler {
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(WorklogNotFoundException.class)
     public ErrorResponse handleWorklogNotFoundException(WorklogNotFoundException exception) {

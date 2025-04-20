@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class LeaveExceptionHandler {
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FreeDaysLeftException.class)
     public ErrorResponse handleFreeDaysLeftException(FreeDaysLeftException exception) {

@@ -14,23 +14,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LeaveDtoAPI {
 
-  private UUID id;
+    private UUID id;
 
-  private UUID employeeId;
+    private UUID employeeId;
 
-  private LocalDate startTime;
+    private LocalDate startTime;
 
-  private LocalDate endTime;
+    private LocalDate endTime;
 
-  private String description;
+    private String description;
 
-  private String leaveType;
+    private String leaveType;
 
-  private String leaveStatus;
+    private String leaveStatus;
 
-  private LocalDate requestDate;
+    private LocalDate requestDate;
 
-  private String responseComment;
+    private String responseComment;
 
-  private UUID responderId;
+    private UUID responderId;
 }

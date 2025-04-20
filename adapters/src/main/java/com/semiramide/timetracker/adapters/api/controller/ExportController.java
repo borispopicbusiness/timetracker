@@ -39,7 +39,7 @@ public class ExportController {
 
     @GetMapping(value = "/worklogs", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<?> getExportFile(HttpServletRequest request) throws IOException, IllegalAccessException {
-        if (!request.getParameterMap().containsKey("employeeId") || !request.getParameterMap().containsKey("projectId")) {
+        if ( !request.getParameterMap().containsKey("employeeId") || !request.getParameterMap().containsKey("projectId") ) {
             throw new MissingParameterException("You must specify at least 1 employee and at least 1 project");
         }
         List<Worklog> worklogs = worklogUseCase.listWorklogByAllCriteria(request.getParameterMap());
@@ -51,7 +51,7 @@ public class ExportController {
                         Collectors.toList()));
         List<WorklogExportDTO> exportDTOS = worklogUseCase.prepareWorklogsForExport(worklogs, employees, projects);
 
-        if (exportDTOS.isEmpty()) {
+        if ( exportDTOS.isEmpty() ) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 

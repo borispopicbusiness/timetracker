@@ -5,16 +5,15 @@ import lombok.Data;
 
 @Data
 public class AdminAccessTokenResponseBody {
+    @JsonProperty("access_token")
+    private String accessToken;
 
-  @JsonProperty("access_token")
-  private String accessToken;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
-  @JsonProperty("refresh_token")
-  private String refreshToken;
+    @JsonProperty("expires_in")
+    private int accessTokenExpiresIn;
 
-  @JsonProperty("expires_in")
-  private int accessTokenExpiresIn;
-
-  @JsonProperty("refresh_expires_in")
-  private int refreshTokenExpiresIn;
+    @JsonProperty("refresh_expires_in")
+    private int refreshTokenExpiresIn;
 }

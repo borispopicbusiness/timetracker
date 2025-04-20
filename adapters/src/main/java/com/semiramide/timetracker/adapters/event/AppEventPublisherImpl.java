@@ -6,11 +6,10 @@ import org.springframework.context.ApplicationEventPublisher;
 
 @Builder
 public class AppEventPublisherImpl implements AppEventPublisher {
+    private final ApplicationEventPublisher publisher;
 
-  private final ApplicationEventPublisher publisher;
-
-  @Override
-  public void publishEvent(Object event) {
-    publisher.publishEvent(event);
-  }
+    @Override
+    public void publishEvent(Object event) {
+        publisher.publishEvent(event);
+    }
 }

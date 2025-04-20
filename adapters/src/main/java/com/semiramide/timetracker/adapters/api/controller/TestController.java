@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TestController {
 
-  private final NotificationService notificationService;
+    private final NotificationService notificationService;
 
-  @GetMapping("/admin/test")
-  public String bla() {
-    return "bla";
-  }
+    @GetMapping("/admin/test")
+    public String bla() {
+        return "bla";
+    }
 
-  @GetMapping("/send-mail")
-  public void sendMail(@RequestParam("to") String to) {
-    notificationService.sendEmail(
-        "semiramide.tt@semiramide.com", new String[] {to}, "Test email", "Test body", false);
-  }
+    @GetMapping("/send-mail")
+    public void sendMail(@RequestParam("to") String to) {
+        notificationService.sendEmail(
+                "semiramide.tt@semiramide.com", new String[]{to}, "Test email", "Test body", false);
+    }
 }

@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProjectDtoAPI {
 
-  private UUID id;
+    private UUID id;
 
-  private String name;
+    private String name;
 
-  private String description;
+    private String description;
 }

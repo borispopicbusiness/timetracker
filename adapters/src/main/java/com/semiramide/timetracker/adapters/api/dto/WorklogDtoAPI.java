@@ -15,23 +15,23 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WorklogDtoAPI {
 
-  private UUID id;
+    private UUID id;
 
-  private UUID employeeId;
+    private UUID employeeId;
 
-  private String taskName;
+    private String taskName;
 
-  private String description;
+    private String description;
 
-  private LocalDateTime startTime;
+    private LocalDateTime startTime;
 
-  private LocalDateTime endTime;
+    private LocalDateTime endTime;
 
-  private LocalDate creationDate;
+    private LocalDate creationDate;
 
-  private Double totalTime;
+    private Double totalTime;
 
-  private UUID projectId;
+    private UUID projectId;
 
-  private String type;
+    private String type;
 }

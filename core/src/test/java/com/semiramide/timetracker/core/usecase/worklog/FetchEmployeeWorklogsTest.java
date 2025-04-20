@@ -29,24 +29,18 @@ import org.junit.jupiter.api.Test;
 
 class FetchEmployeeWorklogsTest {
     private WorklogUseCase worklogUseCase;
-
+    private EmployeeService employeeService;
+    private ProjectService projectService;
     private WorklogService worklogService;
 
+    private EmployeeRepository employeeRepository;
+    private ProjectRepository projectRepository;
     private WorklogRepository worklogRepository;
 
     private Worklog worklog;
 
-    private EmployeeRepository employeeRepository;
-
-    private ProjectRepository projectRepository;
-
-    private EmployeeService employeeService;
-
-    private ProjectService projectService;
-
     @BeforeEach
     void setUp() {
-
         worklogRepository = mock(WorklogRepository.class);
         projectRepository = mock(ProjectRepository.class);
         employeeRepository = mock(EmployeeRepository.class);
