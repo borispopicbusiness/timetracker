@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ExportExceptionHandler {
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingParameterException.class)
     public ErrorResponse handleEmailAlreadyExistsException(MissingParameterException exception) {

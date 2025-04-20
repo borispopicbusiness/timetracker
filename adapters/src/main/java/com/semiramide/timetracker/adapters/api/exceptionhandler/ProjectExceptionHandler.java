@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ProjectExceptionHandler {
-
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ProjectNameAlreadyTakenException.class)
     public ErrorResponse handle(ProjectNameAlreadyTakenException exception) {

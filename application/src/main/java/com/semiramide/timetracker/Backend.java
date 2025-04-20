@@ -10,8 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EnableConfigurationProperties(KeycloakSecurityProperties.class)
 public class Backend {
-
-  public static void main(String[] args) {
-    SpringApplication.run(Backend.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(Backend.class, args);
+    }
 }

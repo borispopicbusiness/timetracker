@@ -15,30 +15,29 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MiscellaneousConfig {
+    @Bean
+    EmployeeHierarchyGraph employeeHierarchyGraph() {
+        return new GuavaMutableGraph();
+    }
 
-  @Bean
-  EmployeeHierarchyGraph employeeHierarchyGraph() {
-    return new GuavaMutableGraph();
-  }
+    @Bean
+    ApplicationInitializer initializingBean(
+            EmployeeHierarchyService employeeHierarchyService, SecurityProvider securityProvider) {
+        return ApplicationInitializer.builder()
+                .employeeHierarchyService(employeeHierarchyService)
+                .securityProvider(securityProvider)
+                .build();
+    }
 
-  @Bean
-  ApplicationInitializer initializingBean(
-      EmployeeHierarchyService employeeHierarchyService, SecurityProvider securityProvider) {
-    return ApplicationInitializer.builder()
-        .employeeHierarchyService(employeeHierarchyService)
-        .securityProvider(securityProvider)
-        .build();
-  }
+    @Bean
+    AppEventPublisher eventPublisher(ApplicationEventPublisher publisher) {
+        return AppEventPublisherImpl.builder().publisher(publisher).build();
+    }
 
-  @Bean
-  AppEventPublisher eventPublisher(ApplicationEventPublisher publisher) {
-    return AppEventPublisherImpl.builder().publisher(publisher).build();
-  }
-
-  @Bean
-  AppEventListener eventListener(EmployeeHierarchyService employeeHierarchyService) {
-    return AppEventListenerImpl.builder()
-        .employeeHierarchyService(employeeHierarchyService)
-        .build();
-  }
+    @Bean
+    AppEventListener eventListener(EmployeeHierarchyService employeeHierarchyService) {
+        return AppEventListenerImpl.builder()
+                .employeeHierarchyService(employeeHierarchyService)
+                .build();
+    }
 }
