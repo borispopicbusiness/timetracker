@@ -38,23 +38,23 @@ NOTE: Check the Keycloak Docker issue
 
 If You are inside timetracker directory
 
-mvn test
-mvn clean test 
+    mvn test
+    mvn clean test 
 
 If you are one directory above timetracker.
 
-mvn test -f ./timetracker
-mvn clean test -f ./timetracker
+    mvn test -f ./timetracker
+    mvn clean test -f ./timetracker
 
 #### Compilation
 
 if you are inside timetracker directory
 
-mvn clean install
+    mvn clean install
 
 If you are one directory above timetracker
 
-mvn clean install -f ./timetracker
+    mvn clean install -f ./timetracker
 
 #### Running the Application
 
@@ -70,19 +70,19 @@ THat will generate a docker image for Keycloak.
 
 Then run
 
-docker-compose up
+    docker-compose up
 
 or
 
-docker-compose up -d
+    docker-compose up -d
 
 Next, you need to start the Gateway. If you are in the parent directory of timetracker, use the following command:
 
-mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.gateway.Gateway" -f ./gateway
+    mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.gateway.Gateway" -f ./gateway
 
 Next
 
-mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.Backend" -f ./application
+    mvn exec:java -Dexec.mainClass="com.semiramide.timetracker.Backend" -f ./application
 
 #### Testing Keycloak flow
 
