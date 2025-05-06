@@ -87,7 +87,6 @@
             <artifactId>greenmail-junit5</artifactId>
             <version>${greenmail-junit5.version}</version>
             <scope>test</scope>
-
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -129,7 +128,6 @@
             <artifactId>thymeleaf-spring5</artifactId>
             <version>${thymeleaf.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -140,7 +138,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>

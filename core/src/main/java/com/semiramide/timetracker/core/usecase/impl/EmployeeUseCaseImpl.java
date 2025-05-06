@@ -21,7 +21,7 @@ import org.springframework.validation.annotation.Validated;
 @Slf4j
 @Builder
 @Validated
-// TODO: Check is it possible to use @Valid
+// TODO: Check if it is possible to use @Valid
 public class EmployeeUseCaseImpl implements EmployeeUseCase {
     private LeaveService leaveService;
     private WorklogService worklogService;
