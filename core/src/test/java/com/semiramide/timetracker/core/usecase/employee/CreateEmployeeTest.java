@@ -93,10 +93,8 @@ class CreateEmployeeTest {
                 .thenReturn(Optional.empty());
         when(employeeRepository.saveEmployee(newEmployeeData)).thenReturn(expectedCreatedEmployee);
 
-        // when
         Employee actualCreatedEmployeeOptional = employeeUseCase.createEmployee(newEmployeeData);
 
-        // then
         verify(employeeRepository).findEmployeeByEmail(newEmployeeData.getEmail());
         verify(employeeRepository).saveEmployee(newEmployeeData);
         assertEquals(expectedCreatedEmployeeOptional.get(), actualCreatedEmployeeOptional);
@@ -134,9 +132,6 @@ class CreateEmployeeTest {
         when(employeeRepository.findEmployeeByEmail(newEmployeeData.getEmail()))
                 .thenReturn(existingEmployeeOptional);
 
-        // when
-
-        // then
         assertAll(
                 () ->
                         assertThrows(
