@@ -28,8 +28,7 @@ public class EmployeeHierarchyServiceImpl implements EmployeeHierarchyService {
 
     @Override
     public synchronized void loadGraph() {
-        // TODO: Should we stop application if the employees are not
-        // found?
+        // TODO: Should we stop application if the employees are not found
         employeeHierarchyGraph.clear();
         employeeService.findAllEmployees().forEach(e -> employeeHierarchyGraph.addNode(e));
         for ( EmployeeHierarchyEntry entry :
